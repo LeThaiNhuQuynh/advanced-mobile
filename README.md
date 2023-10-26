@@ -1,16 +1,7 @@
-# advanced_mobile_project
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+DEFINE STRUCTURE OF CODE BASE:
+- common: contains components or code that are shared across the entire application.
+- core: houses the fundamental building blocks of application, include data models, repositories, or other essential business logic.
+- presentation: handles the presentation layer.
+- services: accommodates code related to external services or API integrations.
+- themes: contains the theme-related code and configurations for application's visual styling.
+- utils: holds utility functions or classes that are specific to application's internal operations.
