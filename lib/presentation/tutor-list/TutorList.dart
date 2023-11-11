@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-class TutorList extends StatefulWidget {
+import 'tutor-list-items/date-picker.dart';
+import 'tutor-list-items/time-picker.dart';
+
+class TutorList extends StatelessWidget {
   const TutorList({super.key});
 
-  @override
-  State<TutorList> createState() => _TutorListState();
-}
-
-class _TutorListState extends State<TutorList> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -188,6 +186,28 @@ class _TutorListState extends State<TutorList> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      child: const Text(
+                        'Set available tutoring time',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          height: 1.3,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromRGBO(0, 0, 0, .9),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: DatePicker(),
+                      width: 180,
+                    ),
+                    Container(
+                      child: TimePicker(),
+                      width: 300,
                     ),
                   ],
                 )),
