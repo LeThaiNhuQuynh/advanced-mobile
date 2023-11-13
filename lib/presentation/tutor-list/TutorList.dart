@@ -1,3 +1,4 @@
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/multi-filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -201,13 +202,32 @@ class TutorList extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10),
                     Container(
                       child: DatePicker(),
                       width: 180,
                     ),
-                    Container(
-                      child: TimePicker(),
-                      width: 300,
+                    SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Container(
+                          child: TimePicker(displayText: "Start time"),
+                          width: 170,
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          child: TimePicker(displayText: "End time"),
+                          width: 150,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        MultiFilter(
+                          items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+                        ),
+                        SizedBox(height: 16),
+                      ],
                     ),
                   ],
                 )),

@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TimePicker extends StatefulWidget {
+  final String displayText;
+
+  const TimePicker({Key? key, required this.displayText}) : super(key: key);
+
   @override
   State<TimePicker> createState() => _TimePickerInputState();
 }
@@ -67,37 +71,36 @@ class _TimePickerInputState extends State<TimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 300,
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(color: Colors.grey), // Set the left border color
-              top: BorderSide(color: Colors.grey), // Set the top border color
-              bottom:
-                  BorderSide(color: Colors.grey), // Set the bottom border color
-            ),
-          ),
-          child: TextField(
-            controller: textStartController,
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-              border: OutlineInputBorder(
-                borderSide:
-                    BorderSide.none, // Set the right border to transparent
-              ),
-              hintText: 'Start time',
-              suffixIcon: IconButton(
-                icon: Icon(Icons.access_time),
-                onPressed: () => _selectStartTime(context),
-              ),
-            ),
-            onTap: () => _selectStartTime(context),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+        border: Border.all(
+          color: Colors.grey,
         ),
-      ],
+      ),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Flexible(
+            child: TextField(
+              controller: textStartController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 15.0),
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+                hintText: widget.displayText,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.access_time),
+                  onPressed: () => _selectStartTime(context),
+                ),
+              ),
+              onTap: () => _selectStartTime(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
