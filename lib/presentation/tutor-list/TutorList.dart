@@ -1,9 +1,9 @@
-import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/multi-filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 import 'tutor-list-items/date-picker.dart';
+import 'tutor-list-items/filter-item.dart';
 import 'tutor-list-items/time-picker.dart';
 
 class TutorList extends StatelessWidget {
@@ -221,14 +221,61 @@ class TutorList extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        MultiFilter(
-                          items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-                        ),
-                        SizedBox(height: 16),
-                      ],
+                    SizedBox(height: 15),
+                    Container(
+                      width: double.infinity,
+                      child: Wrap(
+                        children: [
+                          FilterItem(content: 'All'),
+                          FilterItem(content: 'English for kids'),
+                          FilterItem(content: 'English for business'),
+                          FilterItem(content: 'Conversational'),
+                          FilterItem(content: 'STARTERS'),
+                          FilterItem(content: 'MOVERS'),
+                          FilterItem(content: 'FLYERS'),
+                          FilterItem(content: 'KET'),
+                          FilterItem(content: 'PET'),
+                          FilterItem(content: 'IELTS'),
+                          FilterItem(content: 'TOEFL'),
+                          FilterItem(content: 'TOEIC'),
+                        ],
+                      ),
                     ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      height: 40,
+                      width: 140,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          side: BorderSide(
+                            color: Color(
+                                0xFF0071f0), // Set your desired border color here
+                            width: 2.0, // Set the border width
+                          ),
+                        ),
+                        onPressed: () {
+                          // do nothing
+                        },
+                        child: const Text(
+                          'Reset Filters',
+                          style: TextStyle(
+                            color: Color(0xFF0071f0),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Divider(
+                      color: Colors.grey, // Set the color of the divider line
+                      thickness: 1.0, // Set the thickness of the divider line
+                    ),
+                    SizedBox(height: 30),
                   ],
                 )),
           ]))),
