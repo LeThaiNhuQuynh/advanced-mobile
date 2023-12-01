@@ -1,5 +1,4 @@
-import 'package:advanced_mobile_project/presentation/log-in/LogIn.dart';
-import 'package:advanced_mobile_project/presentation/tutor-list/TutorList.dart';
+import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
 import 'package:flutter/material.dart';
 
 void main() {

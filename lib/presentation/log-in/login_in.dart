@@ -1,4 +1,4 @@
-import 'package:advanced_mobile_project/presentation/tutor-list/TutorList.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -202,8 +202,11 @@ class _LogInState extends State<LogIn> {
                                         const Color.fromRGBO(0, 113, 240, 1),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TutorList())
-                                    );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TutorList()));
                                   },
                                   child: const Text(
                                     'LOG IN',

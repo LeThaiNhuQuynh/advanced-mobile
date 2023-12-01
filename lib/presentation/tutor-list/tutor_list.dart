@@ -2,90 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-import 'tutor-list-items/date-picker.dart';
-import 'tutor-list-items/filter-item.dart';
-import 'tutor-list-items/time-picker.dart';
+import 'tutor-list-items/date_picker.dart';
+import 'tutor-list-items/filter_item.dart';
+import 'tutor-list-items/time_picker.dart';
 
 class TutorList extends StatelessWidget {
   const TutorList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(65.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: const Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 0.3,
-                  ),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: AppBar(
-                backgroundColor: Colors.white,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
-                        'assets/svgs/logo.svg',
-                        width: 35,
-                        height: 35,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.0),
-                            child: SvgPicture.asset(
-                              'assets/svgs/nation.svg',
-                              width: 25,
-                              height: 25,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Container(
-                          padding: const EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.0),
-                            child: SvgPicture.asset(
-                              'assets/svgs/menu.svg',
-                              width: 25,
-                              height: 25,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+    var logoIcon = Container(
+      margin: const EdgeInsets.only(right: 10),
+      child: SvgPicture.asset(
+        'assets/svgs/logo.svg',
+        width: 35,
+        height: 35,
+      ),
+    );
+
+    var languageIcon = Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(158, 158, 158, 1).withOpacity(0.4),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: SvgPicture.asset(
+              'assets/svgs/nation.svg',
+              width: 25,
+              height: 25,
             ),
           ),
+        ),
+        const SizedBox(width: 20),
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: SvgPicture.asset(
+              'assets/svgs/menu.svg',
+              width: 25,
+              height: 25,
+            ),
+          ),
+        ),
+      ],
+    );
+
+    var appBar = PreferredSize(
+      preferredSize: const Size.fromHeight(65.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: const Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 0.3,
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.4),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              logoIcon,
+              languageIcon,
+            ],
+          ),
+        ),
+      ),
+    );
+    return MaterialApp(
+      home: Scaffold(
+          appBar: appBar,
           body: SingleChildScrollView(
               child: Column(children: <Widget>[
             Container(
@@ -130,27 +135,25 @@ class TutorList extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      child: const Text(
-                        'Find a tutor',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          height: 1.3,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromRGBO(0, 0, 0, .9),
-                        ),
+                    const Text(
+                      'Find a tutor',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 16,
+                        height: 1.3,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromRGBO(0, 0, 0, .9),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -167,7 +170,7 @@ class TutorList extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           flex: 2,
                           child: MultiSelectDropDown(
@@ -188,41 +191,39 @@ class TutorList extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Container(
-                      child: const Text(
-                        'Set available tutoring time',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          height: 1.3,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromRGBO(0, 0, 0, .9),
-                        ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Set available tutoring time',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 16,
+                        height: 1.3,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromRGBO(0, 0, 0, .9),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      child: DatePicker(),
+                    const SizedBox(height: 10),
+                    const SizedBox(
                       width: 180,
+                      child: DatePicker(),
                     ),
-                    SizedBox(height: 15),
-                    Row(
+                    const SizedBox(height: 15),
+                    const Row(
                       children: [
-                        Container(
-                          child: TimePicker(displayText: "Start time"),
+                        SizedBox(
                           width: 170,
+                          child: TimePicker(displayText: "Start time"),
                         ),
                         SizedBox(width: 15),
-                        Container(
-                          child: TimePicker(displayText: "End time"),
+                        SizedBox(
                           width: 150,
+                          child: TimePicker(displayText: "End time"),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Container(
+                    const SizedBox(height: 15),
+                    const SizedBox(
                       width: double.infinity,
                       child: Wrap(
                         children: [
@@ -241,7 +242,7 @@ class TutorList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     SizedBox(
                       height: 40,
                       width: 140,
@@ -251,7 +252,7 @@ class TutorList extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: Color(
                                 0xFF0071f0), // Set your desired border color here
                             width: 2.0, // Set the border width
@@ -270,12 +271,12 @@ class TutorList extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Divider(
+                    const SizedBox(height: 20),
+                    const Divider(
                       color: Colors.grey, // Set the color of the divider line
                       thickness: 1.0, // Set the thickness of the divider line
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 )),
           ]))),
