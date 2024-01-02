@@ -1,16 +1,61 @@
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/TutorCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
+import '../../core/models/tutor.dart';
 import 'tutor-list-items/date_picker.dart';
 import 'tutor-list-items/filter_item.dart';
 import 'tutor-list-items/time_picker.dart';
 
 class TutorList extends StatelessWidget {
-  const TutorList({super.key});
+  TutorList({super.key});
+
+  List<String> filterItems = [
+    'All',
+    'English for kids',
+    'English for business',
+    'Conversational',
+    'STARTERS',
+    'MOVERS',
+    'FLYERS',
+    'KET',
+    'PET',
+    'IELTS',
+    'TOEFL',
+    'TOEIC',
+    'SAT'
+  ];
+
+  List<Tutor> tutorList = [
+    Tutor(
+        avatar: 'assets/images/avatar1.jpeg',
+        name: "Keegen",
+        country: "Philippines",
+        feedback: 3,
+        introduction:
+            "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.",
+        liked: true,
+        subjects: [
+          'English for kids',
+          'English for business',
+          'Conversational',
+          'STARTERS'
+        ]),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    //list of filter items
+    List<Widget> filterWidgets = filterItems.map((String item) {
+      return FilterItem(content: item);
+    }).toList();
+
+    //list of tutor cards
+    List<Widget> tutorWidgets = tutorList.map((Tutor tutor) {
+      return TutorCard(tutor: tutor);
+    }).toList();
+
     var logoIcon = Container(
       margin: const EdgeInsets.only(right: 10),
       child: SvgPicture.asset(
@@ -223,24 +268,9 @@ class TutorList extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 15),
-                    const SizedBox(
+                    SizedBox(
                       width: double.infinity,
-                      child: Wrap(
-                        children: [
-                          FilterItem(content: 'All'),
-                          FilterItem(content: 'English for kids'),
-                          FilterItem(content: 'English for business'),
-                          FilterItem(content: 'Conversational'),
-                          FilterItem(content: 'STARTERS'),
-                          FilterItem(content: 'MOVERS'),
-                          FilterItem(content: 'FLYERS'),
-                          FilterItem(content: 'KET'),
-                          FilterItem(content: 'PET'),
-                          FilterItem(content: 'IELTS'),
-                          FilterItem(content: 'TOEFL'),
-                          FilterItem(content: 'TOEIC'),
-                        ],
-                      ),
+                      child: Wrap(children: filterWidgets),
                     ),
                     const SizedBox(height: 15),
                     SizedBox(
@@ -277,6 +307,9 @@ class TutorList extends StatelessWidget {
                       thickness: 1.0, // Set the thickness of the divider line
                     ),
                     const SizedBox(height: 30),
+                    Column(
+                      children: tutorWidgets,
+                    )
                   ],
                 )),
           ]))),

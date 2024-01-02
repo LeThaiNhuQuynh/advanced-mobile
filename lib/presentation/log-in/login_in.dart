@@ -205,8 +205,7 @@ class _LogInState extends State<LogIn> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TutorList()));
+                                            builder: (context) => TutorList()));
                                   },
                                   child: const Text(
                                     'LOG IN',

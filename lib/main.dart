@@ -1,4 +1,5 @@
 import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const LogIn(),
+      home: TutorList(),
     );
   }
 }
