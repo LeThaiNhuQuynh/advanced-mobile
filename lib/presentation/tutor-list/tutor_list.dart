@@ -1,4 +1,6 @@
-import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/TutorCard.dart';
+import 'package:advanced_mobile_project/common/header.dart';
+import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -44,6 +46,8 @@ class TutorList extends StatelessWidget {
         ]),
   ];
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     //list of filter items
@@ -56,86 +60,13 @@ class TutorList extends StatelessWidget {
       return TutorCard(tutor: tutor);
     }).toList();
 
-    var logoIcon = Container(
-      margin: const EdgeInsets.only(right: 10),
-      child: SvgPicture.asset(
-        'assets/svgs/logo.svg',
-        width: 35,
-        height: 35,
-      ),
-    );
+    GlobalKey<ScaffoldState> _key = GlobalKey();
 
-    var languageIcon = Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: const Color.fromRGBO(158, 158, 158, 1).withOpacity(0.4),
-            borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: SvgPicture.asset(
-              'assets/svgs/nation.svg',
-              width: 25,
-              height: 25,
-            ),
-          ),
-        ),
-        const SizedBox(width: 20),
-        Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: SvgPicture.asset(
-              'assets/svgs/menu.svg',
-              width: 25,
-              height: 25,
-            ),
-          ),
-        ),
-      ],
-    );
-
-    var appBar = PreferredSize(
-      preferredSize: const Size.fromHeight(65.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: const Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 0.3,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              logoIcon,
-              languageIcon,
-            ],
-          ),
-        ),
-      ),
-    );
     return MaterialApp(
       home: Scaffold(
-          appBar: appBar,
+          key: _key,
+          appBar: Header(scaffoldKey: _key),
+          endDrawer: Menu(),
           body: SingleChildScrollView(
               child: Column(children: <Widget>[
             Container(
@@ -302,14 +233,23 @@ class TutorList extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    const Icon(
+                      Icons.calendar_today,
+                    ),
+                    SvgPicture.asset(
+                      'assets/svgs/tutor.svg',
+                      color: Color(0xFF0071f0),
+                      height: 20,
+                      width: 20,
+                    ),
                     const Divider(
-                      color: Colors.grey, // Set the color of the divider line
-                      thickness: 1.0, // Set the thickness of the divider line
+                      color: Colors.grey,
+                      thickness: 1.0,
                     ),
                     const SizedBox(height: 30),
                     Column(
                       children: tutorWidgets,
-                    )
+                    ),
                   ],
                 )),
           ]))),
