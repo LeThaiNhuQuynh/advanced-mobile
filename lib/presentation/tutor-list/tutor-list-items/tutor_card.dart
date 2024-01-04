@@ -40,6 +40,7 @@ class TutorCard extends StatelessWidget {
                     tutor.liked
                         ? SvgPicture.asset(
                             'assets/svgs/fill-heart.svg',
+                            color: Colors.red,
                             width: 30,
                             height: 30,
                           )

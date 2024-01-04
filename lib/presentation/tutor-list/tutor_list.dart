@@ -1,3 +1,4 @@
+import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
@@ -66,7 +67,10 @@ class TutorList extends StatelessWidget {
       home: Scaffold(
           key: _key,
           appBar: Header(scaffoldKey: _key),
-          endDrawer: Menu(),
+          endDrawer: Menu(
+            userAvatar: 'assets/images/avatar1.jpeg',
+            userName: 'User Name',
+          ),
           body: SingleChildScrollView(
               child: Column(children: <Widget>[
             Container(
@@ -233,15 +237,6 @@ class TutorList extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Icon(
-                      Icons.calendar_today,
-                    ),
-                    SvgPicture.asset(
-                      'assets/svgs/tutor.svg',
-                      color: Color(0xFF0071f0),
-                      height: 20,
-                      width: 20,
-                    ),
                     const Divider(
                       color: Colors.grey,
                       thickness: 1.0,
@@ -252,6 +247,7 @@ class TutorList extends StatelessWidget {
                     ),
                   ],
                 )),
+            Footer()
           ]))),
     );
   }
