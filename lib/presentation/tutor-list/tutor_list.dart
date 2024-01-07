@@ -44,7 +44,11 @@ class TutorList extends StatelessWidget {
           'English for business',
           'Conversational',
           'STARTERS'
-        ]),
+        ],
+        education: 'University of the Philippines',
+        languages: ['English', 'Filipino'],
+        interests: 'Running, Fitness, Rugby',
+        experience: '5 years'),
   ];
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -218,8 +222,7 @@ class TutorList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           side: const BorderSide(
-                            color: Color(
-                                0xFF0071f0), // Set your desired border color here
+                            color: Color(0xFF0071f0),
                             width: 2.0, // Set the border width
                           ),
                         ),

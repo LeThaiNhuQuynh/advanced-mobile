@@ -7,7 +7,7 @@ class Footer extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 155,
       child: Column(
         children: [
           Divider(

@@ -1,9 +1,7 @@
+import 'package:advanced_mobile_project/common/skill_item.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:country_icons/country_icons.dart';
-
-import 'filter_item.dart';
 
 class TutorCard extends StatelessWidget {
   TutorCard({super.key, required this.tutor});
@@ -13,7 +11,7 @@ class TutorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> filterWidgets = tutor.subjects.map((String item) {
-      return FilterItem(content: item);
+      return SkillItem(content: item);
     }).toList();
 
     return Container(
