@@ -1,6 +1,6 @@
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
+import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: TutorDetail(tutor: tutor),
+      home: Schedule(),
     );
   }
 }
