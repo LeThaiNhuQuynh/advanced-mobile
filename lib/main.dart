@@ -4,6 +4,7 @@ import 'package:advanced_mobile_project/presentation/course-detail/course-detail
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
+import 'package:advanced_mobile_project/presentation/video-call/video.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: CourseDetail(),
+      home: VideoCall(),
     );
   }
 }
