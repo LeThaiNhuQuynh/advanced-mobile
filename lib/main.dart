@@ -1,5 +1,6 @@
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
+import 'package:advanced_mobile_project/presentation/course-detail/course-detail.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: CourseList(),
+      home: CourseDetail(),
     );
   }
 }
