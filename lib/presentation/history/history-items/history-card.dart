@@ -1,7 +1,5 @@
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
 class HistoryCard extends StatelessWidget {
   HistoryCard({super.key, required this.tutor});

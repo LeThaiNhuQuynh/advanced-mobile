@@ -5,8 +5,6 @@ import 'package:advanced_mobile_project/presentation/course-list/course-list-ite
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/tab-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
-import 'package:provider/provider.dart';
 
 class CourseList extends StatelessWidget {
   CourseList({super.key});
