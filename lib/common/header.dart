@@ -1,3 +1,4 @@
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -87,7 +88,17 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         child: AppBar(
           backgroundColor: Colors.white,
           actions: <Widget>[
-            logoIcon,
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TutorList(),
+                  ),
+                )
+              },
+              child: logoIcon,
+            ),
             SizedBox(width: screenWidth - 300),
             languageIcon,
           ],

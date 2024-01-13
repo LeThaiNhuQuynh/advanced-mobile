@@ -1,3 +1,4 @@
+import 'package:advanced_mobile_project/presentation/lesson/lesson.dart';
 import 'package:flutter/material.dart';
 
 class CourseDetailCard extends StatelessWidget {
@@ -68,15 +69,23 @@ class CourseDetailCard extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Text(
-                                'Discover',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Lesson(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    'Discover',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ))),
+                        )
                       ],
                     )),
               ],

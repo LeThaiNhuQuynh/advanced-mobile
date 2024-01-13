@@ -4,6 +4,7 @@ import 'package:advanced_mobile_project/presentation/course-detail/course-detail
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
 import 'package:advanced_mobile_project/presentation/lesson/lesson.dart';
+import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
 import 'package:advanced_mobile_project/presentation/video-call/video.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: Lesson(),
+      home: LogIn(),
     );
   }
 }

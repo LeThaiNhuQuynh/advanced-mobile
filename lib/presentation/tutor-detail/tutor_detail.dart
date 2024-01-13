@@ -11,7 +11,7 @@ import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-i
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TutorDetail extends StatelessWidget {
+class TutorDetail extends StatefulWidget {
   TutorDetail({super.key, required this.tutor});
 
   Tutor tutor;
@@ -19,22 +19,27 @@ class TutorDetail extends StatelessWidget {
   GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
+  State<TutorDetail> createState() => _TutorDetailState();
+}
+
+class _TutorDetailState extends State<TutorDetail> {
+  @override
   Widget build(BuildContext context) {
-    List<Widget> languages = tutor.languages.map((String item) {
+    List<Widget> languages = widget.tutor.languages.map((String item) {
       return SkillItem(content: item);
     }).toList();
 
-    List<Widget> subjects = tutor.subjects.map((String item) {
+    List<Widget> subjects = widget.tutor.subjects.map((String item) {
       return SkillItem(content: item);
     }).toList();
 
-    List<Widget> comments = tutor.comments.map((Comment item) {
+    List<Widget> comments = widget.tutor.comments.map((Comment item) {
       return CommentWidget(comment: item);
     }).toList();
 
     return Scaffold(
-      key: _key,
-      appBar: Header(scaffoldKey: _key),
+      key: widget._key,
+      appBar: Header(scaffoldKey: widget._key),
       endDrawer: Menu(
         userAvatar: 'assets/images/avatar1.jpeg',
         userName: 'User Name',
@@ -49,7 +54,7 @@ class TutorDetail extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage(tutor.avatar),
+                    backgroundImage: AssetImage(widget.tutor.avatar),
                   ),
                   Column(
                     children: [
@@ -59,7 +64,7 @@ class TutorDetail extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              tutor.name,
+                              widget.tutor.name,
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
@@ -77,7 +82,7 @@ class TutorDetail extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                tutor.country,
+                                widget.tutor.country,
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w200,
@@ -91,7 +96,7 @@ class TutorDetail extends StatelessWidget {
                                 (index) => Container(
                                   margin: EdgeInsets.only(right: 4),
                                   child: Icon(
-                                    index < tutor.feedback
+                                    index < widget.tutor.feedback
                                         ? Icons.star
                                         : Icons.star_border,
                                     color: Colors.yellow,
@@ -109,7 +114,7 @@ class TutorDetail extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(8),
                 width: double.infinity,
-                child: Introduction(introduction: tutor.introduction),
+                child: Introduction(introduction: widget.tutor.introduction),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 GestureDetector(
@@ -117,21 +122,33 @@ class TutorDetail extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      tutor.liked
-                          ? SvgPicture.asset(
-                              'assets/svgs/fill-heart.svg',
-                              color: Colors.red,
-                              width: 30,
-                              height: 30,
-                            )
-                          : SvgPicture.asset(
-                              'assets/svgs/no-fill-heart.svg',
-                              color: Color(0xFF0071f0),
-                              width: 30,
-                              height: 30,
-                            ),
+                      GestureDetector(
+                        onTap: widget.tutor.liked
+                            ? () {
+                                setState(() {
+                                  widget.tutor.liked = false;
+                                });
+                              }
+                            : () {
+                                setState(() {
+                                  widget.tutor.liked = true;
+                                });
+                              },
+                        child: widget.tutor.liked
+                            ? SvgPicture.asset(
+                                'assets/svgs/fill-heart.svg',
+                                color: Colors.red,
+                                width: 30,
+                                height: 30,
+                              )
+                            : SvgPicture.asset(
+                                'assets/svgs/no-fill-heart.svg',
+                                width: 30,
+                                height: 30,
+                              ),
+                      ),
                       SizedBox(height: 10),
-                      tutor.liked
+                      widget.tutor.liked
                           ? Text(
                               'Favorite',
                               style: TextStyle(
@@ -190,7 +207,7 @@ class TutorDetail extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      tutor.education,
+                      widget.tutor.education,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,
@@ -336,7 +353,7 @@ class TutorDetail extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      tutor.interests,
+                      widget.tutor.interests,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,
@@ -363,7 +380,7 @@ class TutorDetail extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      tutor.experience,
+                      widget.tutor.experience,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,

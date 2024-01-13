@@ -1,6 +1,7 @@
 import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

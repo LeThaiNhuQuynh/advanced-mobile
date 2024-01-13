@@ -1,5 +1,6 @@
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/presentation/course-detail/course-detail.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/course-card.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/multi-select-dropdown.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/tab-bar.dart';
@@ -133,22 +134,32 @@ class CourseList extends StatelessWidget {
             Tab(child: Text('Interative E-books')),
           ], views: [
             Scrollbar(
-                child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(
-                  5,
-                  (index) => Container(
-                    margin: EdgeInsets.all(20),
-                    child: CourseCard(
-                      title: 'Life in the Internet Age',
-                      description:
-                          "Let's discuss how technology is changing the way we live",
-                      detail: '9 lessons',
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                    5,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CourseDetail(),
+                            ));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        child: CourseCard(
+                          title: 'Life in the Internet Age',
+                          description:
+                              "Let's discuss how technology is changing the way we live",
+                          detail: '9 lessons',
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            )),
+            ),
             Center(
               child: Text("No Data"),
             ),

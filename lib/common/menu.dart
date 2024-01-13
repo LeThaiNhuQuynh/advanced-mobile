@@ -1,3 +1,7 @@
+import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
+import 'package:advanced_mobile_project/presentation/history/history.dart';
+import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -55,28 +59,56 @@ class Menu extends StatelessWidget {
               asset: 'assets/svgs/menu-tutor.svg',
               text: 'Tutor',
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TutorList(),
+                ),
+              );
+            },
           ),
           ListTile(
             title: MenuWidget(
               asset: 'assets/svgs/menu-schedule.svg',
               text: 'Schedule',
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => (Schedule()),
+                ),
+              );
+            },
           ),
           ListTile(
             title: MenuWidget(
               asset: 'assets/svgs/menu-history.svg',
               text: 'History',
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => History(),
+                ),
+              );
+            },
           ),
           ListTile(
             title: MenuWidget(
               asset: 'assets/svgs/menu-course.svg',
               text: 'Courses',
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseList(),
+                ),
+              );
+            },
           ),
           ListTile(
             title: MenuWidget(
