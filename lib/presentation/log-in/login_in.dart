@@ -1,4 +1,8 @@
+import 'package:advanced_mobile_project/core/constants/validator.dart';
+import 'package:advanced_mobile_project/core/dtos/login-dto.dart';
+import 'package:advanced_mobile_project/presentation/log-in/log-in-items/forgot_password.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
+import 'package:advanced_mobile_project/services/authencation-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -10,6 +14,12 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  bool _isLogin = true;
+  bool _isPasswordVisible = false;
+
+  final LoginDTO _loginDTO = LoginDTO(email: '', password: '');
+  String? _errorText = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -136,6 +146,9 @@ class _LogInState extends State<LogIn> {
                                     borderRadius: BorderRadius.circular(5.0),
                                   ),
                                 ),
+                                onChanged: (value) {
+                                  _loginDTO.email = value;
+                                },
                               ),
                             ],
                           ),
@@ -155,6 +168,7 @@ class _LogInState extends State<LogIn> {
                               ),
                               const SizedBox(height: 10),
                               TextFormField(
+                                obscureText: !_isPasswordVisible,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 15.0, horizontal: 10.0),
@@ -163,59 +177,101 @@ class _LogInState extends State<LogIn> {
                                   ),
                                   suffixIcon: IconButton(
                                     onPressed: () {
-                                      // do nothing
+                                      setState(() {
+                                        _isPasswordVisible =
+                                            !_isPasswordVisible;
+                                      });
                                     },
                                     icon: SizedBox(
                                       width: 16,
                                       height: 16,
-                                      child: SvgPicture.asset(
-                                        'assets/svgs/password.svg',
-                                        semanticsLabel: 'Password Icon',
-                                      ),
+                                      child: _isPasswordVisible
+                                          ? SvgPicture.asset(
+                                              'assets/svgs/password.svg',
+                                              semanticsLabel: 'Password Icon',
+                                            )
+                                          : Container(
+                                              child: const Icon(
+                                                Icons.visibility,
+                                                size: 16,
+                                              ),
+                                            ),
                                     ),
                                   ),
                                 ),
+                                onChanged: (value) {
+                                  _loginDTO.password = value;
+                                },
                               )
                             ],
                           ),
                           const SizedBox(height: 25),
                           Column(
                             children: <Widget>[
-                              const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromRGBO(40, 106, 210, 1),
+                              if (_isLogin)
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ForgotPasswordPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Forgot Password?',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromRGBO(40, 106, 210, 1),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(height: 10),
+                              if (_errorText != "")
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    _errorText!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
                               SizedBox(
                                 height: 50,
                                 width: double.infinity,
                                 child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromRGBO(0, 113, 240, 1),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => TutorList()));
-                                  },
-                                  child: const Text(
-                                    'LOG IN',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          const Color.fromRGBO(0, 113, 240, 1),
                                     ),
-                                  ),
-                                ),
+                                    onPressed: () {
+                                      _isLogin ? _onLogin() : _onSignUp();
+                                    },
+                                    child: _isLogin
+                                        ? const Text(
+                                            'LOG IN',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                          )
+                                        : const Text(
+                                            'SIGN UP',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                          )),
                               ),
                             ],
                           ),
@@ -265,7 +321,7 @@ class _LogInState extends State<LogIn> {
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
@@ -276,14 +332,33 @@ class _LogInState extends State<LogIn> {
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  Text(
-                                    'Sign up',
-                                    style: TextStyle(
-                                      color: Color(0xFF1890FF),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _isLogin = !_isLogin;
+                                        });
+                                      },
+                                      child: _isLogin
+                                          ? Text(
+                                              'Sign up',
+                                              style: TextStyle(
+                                                color: Color(0xFF1890FF),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            )
+                                          : Text(
+                                              'Login',
+                                              style: TextStyle(
+                                                color: Color(0xFF1890FF),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ],
@@ -296,5 +371,81 @@ class _LogInState extends State<LogIn> {
                 ),
               ),
             )));
+  }
+
+  void _onLogin() {
+    String? validateEmail = Validator.emailValidate(_loginDTO.email!);
+    if (validateEmail != null) {
+      setState(() {
+        _errorText = validateEmail;
+      });
+      return;
+    }
+
+    AuthenticationApi authApi = AuthenticationApi.instance;
+
+    authApi.login(_loginDTO).then((value) {
+      if (value["status"] != "200") {
+        print(value["message"]);
+        setState(() {
+          _errorText = "Invalid email or password";
+        });
+        return;
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TutorList()));
+      }
+    });
+  }
+
+  _onSignUp() {
+    String? validateEmail = Validator.emailValidate(_loginDTO.email!);
+    if (validateEmail != null) {
+      setState(() {
+        _errorText = validateEmail;
+      });
+      return;
+    }
+
+    String? validatePassword = Validator.passwordValidate(_loginDTO.password!);
+    if (validatePassword != null) {
+      setState(() {
+        _errorText = validatePassword;
+      });
+      return;
+    }
+
+    AuthenticationApi authApi = AuthenticationApi.instance;
+
+    authApi.register(_loginDTO).then((value) {
+      if (value["status"] != "201") {
+        print(value["message"]);
+        setState(() {
+          _errorText = value["message"];
+        });
+        return;
+      } else
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Success"),
+              content: Text("Registration successful!"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LogIn()),
+                    );
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+    });
   }
 }
