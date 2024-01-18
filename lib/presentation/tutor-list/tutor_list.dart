@@ -32,12 +32,11 @@ class TutorList extends StatefulWidget {
 class _TutorListState extends State<TutorList> {
   int totalPage = 1;
   int currentPage = 1;
+  String currentFilter = "";
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
 
   Future<void> getSpecialities() async {
-    List<FilterItemDTO> items = [];
-
     Map response = await widget.tutorService.getFilterItem();
 
     if (response["status"] == "200") {
@@ -52,7 +51,8 @@ class _TutorListState extends State<TutorList> {
   }
 
   Future<void> getTutorList(int page) async {
-    Map response = await widget.tutorService.geTutorList(widget.perPage, page);
+    Map response = await widget.tutorService
+        .geTutorList(widget.perPage, page, currentFilter);
 
     if (response["status"] == "200") {
       setState(() {
@@ -89,7 +89,15 @@ class _TutorListState extends State<TutorList> {
   Widget build(BuildContext context) {
     //list of filter items
     List<Widget> filterWidgets = specialities.map((FilterItemDTO item) {
-      return FilterItem(content: item.name);
+      return FilterItem(
+        content: item.name,
+        selected: () {
+          setState(() {
+            currentFilter = item.key;
+            getTutorList(1);
+          });
+        },
+      );
     }).toList();
 
     //list of tutor cards

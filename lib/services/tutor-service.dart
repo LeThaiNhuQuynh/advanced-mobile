@@ -13,7 +13,7 @@ class TutorService {
   TutorService._();
   static final TutorService instance = TutorService._();
 
-  Future<Map> geTutorList(int perPage, int page) async {
+  Future<Map> geTutorList(int perPage, int page, String filter) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var res = await http.post(
@@ -24,7 +24,7 @@ class TutorService {
       },
       body: jsonEncode({
         "filters": {
-          "specialties": [],
+          "specialties": [filter],
           "date": null,
           "nationality": {},
           "tutoringTimeAvailable": [null, null]

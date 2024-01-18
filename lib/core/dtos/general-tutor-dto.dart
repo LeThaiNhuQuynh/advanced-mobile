@@ -1,3 +1,4 @@
+import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
 import 'package:advanced_mobile_project/core/models/specialtity.dart';
 
 class GeneralTutorDTO {

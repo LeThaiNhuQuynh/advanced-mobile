@@ -1,12 +1,22 @@
 class Speciality {
-  static int _idCounter = 0;
-
-  late int id;
-  String name;
+  String key;
+  late String name;
 
   Speciality({
-    required this.name,
+    required this.key,
   }) {
-    id = _idCounter++;
+    name = _formatSpeciality(key);
+  }
+}
+
+String _formatSpeciality(String speciality) {
+  List<String> words = speciality.split('-');
+  String formattedSpeciality = words.map((word) => word.capitalize()).join(' ');
+  return formattedSpeciality;
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

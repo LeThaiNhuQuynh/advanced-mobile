@@ -2,6 +2,7 @@ import 'package:advanced_mobile_project/common/avatar.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/general-tutor-dto.dart';
+import 'package:advanced_mobile_project/core/models/specialtity.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,13 @@ class TutorCard extends StatefulWidget {
 class _TutorCardState extends State<TutorCard> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> filterWidgets =
+    List<Speciality> specialities =
         (widget.tutor.specialties?.split(',') ?? []).map((String item) {
-      return SkillItem(content: item);
+      return Speciality(key: item);
+    }).toList();
+
+    List<Widget> filterWidgets = specialities.map((Speciality item) {
+      return SkillItem(content: item.name);
     }).toList();
 
     return Container(
