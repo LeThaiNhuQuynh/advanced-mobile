@@ -7,7 +7,7 @@ class Comment {
     required this.text,
   });
 
-  Tutor tutor;
+  Tutor1 tutor;
   int star;
   String text;
 }

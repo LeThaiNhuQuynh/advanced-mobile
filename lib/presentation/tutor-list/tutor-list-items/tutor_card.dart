@@ -1,4 +1,7 @@
+import 'package:advanced_mobile_project/common/avatar.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
+import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/general-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class TutorCard extends StatefulWidget {
   TutorCard({super.key, required this.tutor});
 
-  Tutor tutor;
+  GeneralTutorDTO tutor;
 
   @override
   State<TutorCard> createState() => _TutorCardState();
@@ -16,19 +19,20 @@ class TutorCard extends StatefulWidget {
 class _TutorCardState extends State<TutorCard> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> filterWidgets = widget.tutor.subjects.map((String item) {
+    List<Widget> filterWidgets =
+        (widget.tutor.specialties?.split(',') ?? []).map((String item) {
       return SkillItem(content: item);
     }).toList();
 
     return Container(
         margin: EdgeInsets.all(8),
         child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TutorDetail(tutor: widget.tutor)));
-            },
+            onTap: () {},
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => TutorDetail(tutor: widget.tutor)));
+            // },
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -39,15 +43,15 @@ class _TutorCardState extends State<TutorCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: widget.tutor.liked
+                      onTap: widget.tutor.isFavorite
                           ? () {
                               setState(() {
-                                widget.tutor.liked = false;
+                                widget.tutor.isFavorite = false;
                               });
                             }
                           : () {
                               setState(() {
-                                widget.tutor.liked = true;
+                                widget.tutor.isFavorite = true;
                               });
                             },
                       child: Row(
@@ -56,11 +60,12 @@ class _TutorCardState extends State<TutorCard> {
                           const SizedBox(
                             width: 30,
                           ),
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage: AssetImage(widget.tutor.avatar),
+                          Avatar(
+                            avatarText: widget.tutor.name,
+                            imageUrl: widget.tutor.avatar ??
+                                'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
                           ),
-                          widget.tutor.liked
+                          widget.tutor.isFavorite
                               ? SvgPicture.asset(
                                   'assets/svgs/fill-heart.svg',
                                   color: Colors.red,
@@ -99,7 +104,7 @@ class _TutorCardState extends State<TutorCard> {
                               ),
                             ),
                             Text(
-                              widget.tutor.country,
+                              widget.tutor.country ?? '',
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w200,
@@ -113,7 +118,7 @@ class _TutorCardState extends State<TutorCard> {
                               (index) => Container(
                                 margin: EdgeInsets.only(right: 4),
                                 child: Icon(
-                                  index < widget.tutor.feedback
+                                  index < widget.tutor.rating
                                       ? Icons.star
                                       : Icons.star_border,
                                   color: Colors.yellow,
@@ -133,7 +138,7 @@ class _TutorCardState extends State<TutorCard> {
                       width: double.infinity,
                       height: 100,
                       child: Text(
-                        widget.tutor.introduction,
+                        widget.tutor.bio,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 4,
                         style: TextStyle(
@@ -165,11 +170,11 @@ class _TutorCardState extends State<TutorCard> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          TutorDetail(tutor: widget.tutor)));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             TutorDetail(tutor: widget.tutor)));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

@@ -206,7 +206,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       return;
     }
 
-    AuthenticationApi resetPassApi = AuthenticationApi.instance;
+    AuthenticationService resetPassApi = AuthenticationService.instance;
 
     resetPassApi.forgotPassword(value).then((value) {
       if (value["status"] != "200") {

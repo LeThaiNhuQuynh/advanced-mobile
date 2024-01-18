@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import '../core/constants/api.dart';
 import '../core/constants/share-preference.dart';
 
-class AuthenticationApi {
-  AuthenticationApi._();
-  static final AuthenticationApi instance = AuthenticationApi._();
+class AuthenticationService {
+  AuthenticationService._();
+  static final AuthenticationService instance = AuthenticationService._();
 
   Future<Map<String, String>> login(LoginDTO loginDTO) async {
     var response = await http.post(

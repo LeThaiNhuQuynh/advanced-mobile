@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class HistoryCard extends StatelessWidget {
   HistoryCard({super.key, required this.tutor});
 
-  Tutor tutor;
+  Tutor1 tutor;
 
   @override
   Widget build(BuildContext context) {

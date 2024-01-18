@@ -382,7 +382,7 @@ class _LogInState extends State<LogIn> {
       return;
     }
 
-    AuthenticationApi authApi = AuthenticationApi.instance;
+    AuthenticationService authApi = AuthenticationService.instance;
 
     authApi.login(_loginDTO).then((value) {
       if (value["status"] != "200") {
@@ -415,7 +415,7 @@ class _LogInState extends State<LogIn> {
       return;
     }
 
-    AuthenticationApi authApi = AuthenticationApi.instance;
+    AuthenticationService authApi = AuthenticationService.instance;
 
     authApi.register(_loginDTO).then((value) {
       if (value["status"] != "201") {

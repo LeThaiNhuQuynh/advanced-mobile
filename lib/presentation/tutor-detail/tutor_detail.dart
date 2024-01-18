@@ -5,6 +5,7 @@ import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
+import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/introduction.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/schedule.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/video.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_svg/svg.dart';
 class TutorDetail extends StatefulWidget {
   TutorDetail({super.key, required this.tutor});
 
-  Tutor tutor;
+  Tutor1 tutor;
 
   GlobalKey<ScaffoldState> _key = GlobalKey();
 
@@ -29,11 +30,11 @@ class _TutorDetailState extends State<TutorDetail> {
       return SkillItem(content: item);
     }).toList();
 
-    List<Widget> subjects = widget.tutor.subjects.map((String item) {
+    List<Widget> subjects = widget.tutor.specialities.map((String item) {
       return SkillItem(content: item);
     }).toList();
 
-    List<Widget> comments = widget.tutor.comments.map((Comment item) {
+    List<Widget> comments = widget.tutor.feedbacks.map((Comment item) {
       return CommentWidget(comment: item);
     }).toList();
 

@@ -1,68 +1,99 @@
 import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
+import 'package:advanced_mobile_project/core/models/general-tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/pagination.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
+import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
+import '../../core/dtos/general-tutor-dto.dart';
 import '../../core/models/tutor.dart';
 import 'tutor-list-items/date_picker.dart';
 import 'tutor-list-items/filter_item.dart';
 import 'tutor-list-items/time_picker.dart';
 
-class TutorList extends StatelessWidget {
+class TutorList extends StatefulWidget {
+  TutorService tutorService = TutorService.instance;
+  final int perPage = 12;
+
   TutorList({super.key});
-
-  List<String> filterItems = [
-    'All',
-    'English for kids',
-    'English for business',
-    'Conversational',
-    'STARTERS',
-    'MOVERS',
-    'FLYERS',
-    'KET',
-    'PET',
-    'IELTS',
-    'TOEFL',
-    'TOEIC',
-    'SAT'
-  ];
-
-  List<Tutor> tutorList = [
-    Tutor(
-        avatar: 'assets/images/avatar1.jpeg',
-        name: "Keegen",
-        country: "Philippines",
-        feedback: 3,
-        introduction:
-            "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.",
-        liked: true,
-        subjects: [
-          'English for kids',
-          'English for business',
-          'Conversational',
-          'STARTERS'
-        ],
-        education: 'University of the Philippines',
-        languages: ['English', 'Filipino'],
-        interests: 'Running, Fitness, Rugby',
-        experience: '5 years'),
-  ];
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  State<TutorList> createState() => _TutorListState();
+}
+
+class _TutorListState extends State<TutorList> {
+  int totalPage = 1;
+  int currentPage = 1;
+  List<GeneralTutorDTO> tutorList = [];
+  List<FilterItemDTO> specialities = [];
+
+  Future<void> getSpecialities() async {
+    List<FilterItemDTO> items = [];
+
+    Map response = await widget.tutorService.getFilterItem();
+
+    if (response["status"] == "200") {
+      setState(() {
+        specialities = response["specialities"];
+      });
+    } else if (response["status"] == "401" && context.mounted) {
+      print(response["message"]);
+    } else {
+      print(response["message"]);
+    }
+  }
+
+  Future<void> getTutorList(int page) async {
+    Map response = await widget.tutorService.geTutorList(widget.perPage, page);
+
+    if (response["status"] == "200") {
+      setState(() {
+        totalPage = response["total"];
+        tutorList = response["tutors"];
+      });
+    } else if (response["status"] == "401" && context.mounted) {
+      Navigator.pushNamed(context, '/login');
+    } else {
+      print(response["message"]);
+    }
+
+    tutorList.sort((a, b) {
+      if (b.isFavorite && !a.isFavorite) {
+        return 1;
+      } else if (!b.isFavorite && a.isFavorite) {
+        return -1;
+      }
+      return b.rating.compareTo(a.rating);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // _getUser();
+    // getTotalLessonHours();
+    getTutorList(1);
+    getSpecialities();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //list of filter items
-    List<Widget> filterWidgets = filterItems.map((String item) {
-      return FilterItem(content: item);
+    List<Widget> filterWidgets = specialities.map((FilterItemDTO item) {
+      return FilterItem(content: item.name);
     }).toList();
 
     //list of tutor cards
-    List<Widget> tutorWidgets = tutorList.map((Tutor tutor) {
+    List<Widget> tutorWidgets = tutorList.map((GeneralTutorDTO tutor) {
       return TutorCard(tutor: tutor);
     }).toList();
 
@@ -249,6 +280,14 @@ class TutorList extends StatelessWidget {
                     Column(
                       children: tutorWidgets,
                     ),
+                    const SizedBox(height: 30),
+                    if (totalPage != null)
+                      Pagination(
+                        totalPage: totalPage!,
+                        onPageChange: (int page) {
+                          getTutorList(page);
+                        },
+                      ),
                   ],
                 )),
             Footer()

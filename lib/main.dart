@@ -6,6 +6,7 @@ import 'package:advanced_mobile_project/presentation/history/history.dart';
 import 'package:advanced_mobile_project/presentation/lesson/lesson.dart';
 import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:advanced_mobile_project/presentation/video-call/video.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  Tutor tutor = Tutor(
+  Tutor1 tutor = Tutor1(
       avatar: 'assets/images/avatar1.jpeg',
       name: "Keegen",
       country: "Philippines",
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       introduction:
           "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.",
       liked: false,
-      subjects: [
+      specialities: [
         'English for kids',
         'English for business',
         'KET',
@@ -39,16 +40,16 @@ class MyApp extends StatelessWidget {
       interests:
           ' I loved the weather, the scenery and the laid-back lifestyle of the locals.',
       experience: 'I have more than 10 years of teaching english experience',
-      comments: [
+      feedbacks: [
         Comment(
-          tutor: Tutor(
+          tutor: Tutor1(
               avatar: 'assets/images/avatar1.jpeg',
               name: "Another",
               country: "Vietnam",
               feedback: 2,
               introduction: "introduction",
               liked: true,
-              subjects: List.empty(),
+              specialities: List.empty(),
               education: "education",
               languages: List.empty(),
               interests: "interests",

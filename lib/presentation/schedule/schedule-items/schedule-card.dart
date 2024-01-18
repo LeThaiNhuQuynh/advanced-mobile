@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ScheduleCard extends StatelessWidget {
   ScheduleCard({super.key, required this.tutor});
 
-  Tutor tutor;
+  Tutor1 tutor;
 
   @override
   Widget build(BuildContext context) {
