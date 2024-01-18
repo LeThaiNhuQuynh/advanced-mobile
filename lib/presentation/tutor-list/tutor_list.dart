@@ -33,6 +33,8 @@ class _TutorListState extends State<TutorList> {
   int totalPage = 1;
   int currentPage = 1;
   String currentFilter = "";
+  String searchName = "";
+  String noDataMessage = "";
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
 
@@ -51,14 +53,19 @@ class _TutorListState extends State<TutorList> {
   }
 
   Future<void> getTutorList(int page) async {
+    noDataMessage = "";
+
     Map response = await widget.tutorService
-        .geTutorList(widget.perPage, page, currentFilter);
+        .geTutorList(widget.perPage, page, currentFilter, searchName);
 
     if (response["status"] == "200") {
       setState(() {
         totalPage = response["total"];
         tutorList = response["tutors"];
       });
+      if (tutorList.isEmpty) {
+        noDataMessage = "No data found";
+      }
     } else if (response["status"] == "401" && context.mounted) {
       Navigator.pushNamed(context, '/login');
     } else {
@@ -106,6 +113,7 @@ class _TutorListState extends State<TutorList> {
     }).toList();
 
     GlobalKey<ScaffoldState> _key = GlobalKey();
+    final TextEditingController _nameController = TextEditingController();
 
     return MaterialApp(
       home: Scaffold(
@@ -184,6 +192,7 @@ class _TutorListState extends State<TutorList> {
                         Expanded(
                           flex: 3,
                           child: TextFormField(
+                            controller: _nameController,
                             decoration: InputDecoration(
                               hintText: 'Enter tutor name...',
                               contentPadding: const EdgeInsets.symmetric(
@@ -214,6 +223,34 @@ class _TutorListState extends State<TutorList> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 15),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color(0xFF0071f0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFF0071f0),
+                          width: 2.0, // Set the border width
+                        ),
+                      ),
+                      onPressed: () {
+                        String enteredText = _nameController.text;
+                        setState(() {
+                          searchName = enteredText;
+                          getTutorList(1);
+                        });
+                      },
+                      child: const Text(
+                        'Find',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 15),
                     const Text(
@@ -286,7 +323,20 @@ class _TutorListState extends State<TutorList> {
                     ),
                     const SizedBox(height: 30),
                     Column(
-                      children: tutorWidgets,
+                      children: noDataMessage == ""
+                          ? tutorWidgets
+                          : [
+                              Text(
+                                noDataMessage,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  height: 1.3,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromRGBO(0, 0, 0, .9),
+                                ),
+                              ),
+                            ],
                     ),
                     const SizedBox(height: 30),
                     if (totalPage != null)

@@ -13,7 +13,8 @@ class TutorService {
   TutorService._();
   static final TutorService instance = TutorService._();
 
-  Future<Map> geTutorList(int perPage, int page, String filter) async {
+  Future<Map> geTutorList(
+      int perPage, int page, String filter, String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var res = await http.post(
@@ -30,7 +31,8 @@ class TutorService {
           "tutoringTimeAvailable": [null, null]
         },
         "page": page.toString(),
-        "perPage": perPage
+        "perPage": perPage,
+        if (name != "") "search": name,
       }),
     );
 
@@ -97,6 +99,37 @@ class TutorService {
 
     return {"status": "200", "specialities": specialities};
   }
+
+  // Future<Map> getTutorById(String id) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //   var res = await http.get(Uri.parse('$SERVER_HOST$TUTOR/$id'), headers: {
+  //     'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
+  //   });
+  //
+  //   var decodedResponse = jsonDecode(res.body);
+  //
+  //   if (res.statusCode == 200) {
+  //     DetailedTutorDTO tutor = DetailedTutorDTO.fromJson(decodedResponse);
+  //
+  //     return {
+  //       "status": res.statusCode.toString(),
+  //       "tutor": tutor,
+  //     };
+  //   } else if (res.statusCode == 401) {
+  //     await prefs.remove(TOKEN_KEY);
+  //     return {
+  //       "status": res.statusCode.toString(),
+  //       "message": decodedResponse["message"],
+  //       "tutor": null
+  //     };
+  //   } else {
+  //     return {
+  //       "status": res.statusCode.toString(),
+  //       "message": decodedResponse["message"]
+  //     };
+  //   }
+  // }
 
   // Future<Map> getFeedbacks(String id, int perPage, int page) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
