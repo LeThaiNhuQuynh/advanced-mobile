@@ -1,19 +1,21 @@
 import 'package:advanced_mobile_project/core/models/comment.dart';
+import 'package:advanced_mobile_project/core/models/feedback.dart';
+import 'package:advanced_mobile_project/core/models/specialtity.dart';
 
-class Tutor {
-  Tutor({
+class Tutor1 {
+  Tutor1({
     required this.avatar,
     required this.name,
     required this.country,
     required this.feedback,
     required this.introduction,
     required this.liked,
-    required this.subjects,
+    required this.specialities,
     required this.education,
     required this.languages,
     required this.interests,
     required this.experience,
-    this.comments = const [],
+    this.feedbacks = const [],
   });
 
   String avatar;
@@ -25,7 +27,15 @@ class Tutor {
   String interests;
   String experience;
   bool liked;
-  List<String> subjects;
+  List<String> specialities;
   List<String> languages;
-  List<Comment> comments = List.empty();
+  List<Comment> feedbacks = List.empty();
+
+  // int getRating() {
+  //   double sum = 0;
+  //   for (var feedback in feedbacks) {
+  //     sum += feedback.rating;
+  //   }
+  //   return (sum / feedbacks.length).round();
+  // }
 }
