@@ -38,20 +38,6 @@ class _TutorListState extends State<TutorList> {
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
 
-  Future<void> getSpecialities() async {
-    Map response = await widget.tutorService.getFilterItem();
-
-    if (response["status"] == "200") {
-      setState(() {
-        specialities = response["specialities"];
-      });
-    } else if (response["status"] == "401" && context.mounted) {
-      print(response["message"]);
-    } else {
-      print(response["message"]);
-    }
-  }
-
   Future<void> getTutorList(int page) async {
     noDataMessage = "";
 
@@ -80,6 +66,20 @@ class _TutorListState extends State<TutorList> {
       }
       return b.rating.compareTo(a.rating);
     });
+  }
+
+  Future<void> getSpecialities() async {
+    Map response = await widget.tutorService.getFilterItem();
+
+    if (response["status"] == "200") {
+      setState(() {
+        specialities = response["specialities"];
+      });
+    } else if (response["status"] == "401" && context.mounted) {
+      print(response["message"]);
+    } else {
+      print(response["message"]);
+    }
   }
 
   @override

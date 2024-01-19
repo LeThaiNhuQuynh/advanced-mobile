@@ -5,12 +5,14 @@ import 'package:advanced_mobile_project/core/dtos/general-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/models/specialtity.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
+import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TutorCard extends StatefulWidget {
   TutorCard({super.key, required this.tutor});
 
+  TutorService tutorService = TutorService.instance;
   GeneralTutorDTO tutor;
 
   @override
@@ -18,6 +20,18 @@ class TutorCard extends StatefulWidget {
 }
 
 class _TutorCardState extends State<TutorCard> {
+  void onFavorite() async {
+    Map res = await widget.tutorService.favoriteTutor(widget.tutor.id);
+
+    if (res["status"] == "200") {
+      setState(() {
+        widget.tutor.isFavorite = !widget.tutor.isFavorite;
+      });
+    } else if (res["status"] == "401") {
+      Navigator.pushNamed(context, '/login');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Speciality> specialities =
@@ -48,17 +62,9 @@ class _TutorCardState extends State<TutorCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: widget.tutor.isFavorite
-                          ? () {
-                              setState(() {
-                                widget.tutor.isFavorite = false;
-                              });
-                            }
-                          : () {
-                              setState(() {
-                                widget.tutor.isFavorite = true;
-                              });
-                            },
+                      onTap: () {
+                        onFavorite();
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
