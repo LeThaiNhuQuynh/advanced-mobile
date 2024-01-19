@@ -239,8 +239,9 @@ class _TutorDetailState extends State<TutorDetail> {
                   ],
                 ),
               ]),
-              SizedBox(height: 20),
-              // Video(),
+              SizedBox(height: 30),
+              // Video(src: widget.tutor.video),
+              SizedBox(height: 30),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

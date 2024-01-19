@@ -3,14 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class Video extends StatelessWidget {
-  Video({super.key});
-
-  final FlickManager flickManager = FlickManager(
-    videoPlayerController: VideoPlayerController.networkUrl(
-      Uri.parse(
-          'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),
-    ),
-  );
+  String src;
+  Video({Key? key, required this.src}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +12,11 @@ class Video extends StatelessWidget {
       width: double.infinity,
       height: 300,
       child: FlickVideoPlayer(
-        flickManager: flickManager,
+        flickManager: FlickManager(
+          videoPlayerController: VideoPlayerController.networkUrl(
+            Uri.parse(src),
+          ),
+        ),
         flickVideoWithControls: FlickVideoWithControls(
           controls: FlickLandscapeControls(),
           videoFit: BoxFit.contain,
