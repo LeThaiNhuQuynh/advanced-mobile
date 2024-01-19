@@ -17,7 +17,7 @@ class GeneralTutorDTO {
       required this.avatar,
       required this.country,
       required this.bio,
-      required this.specialties,
+      this.specialties,
       required this.rating,
       required this.isFavorite});
 

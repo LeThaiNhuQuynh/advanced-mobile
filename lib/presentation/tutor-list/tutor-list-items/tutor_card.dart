@@ -1,5 +1,6 @@
 import 'package:advanced_mobile_project/common/avatar.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
+import 'package:advanced_mobile_project/core/dtos/detail-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/general-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/models/specialtity.dart';
@@ -20,6 +21,25 @@ class TutorCard extends StatefulWidget {
 }
 
 class _TutorCardState extends State<TutorCard> {
+  DetailTutorDTO detailTutorDTO = DetailTutorDTO(
+    id: "0",
+    name: "",
+    avatar: "",
+    country: "",
+    bio: "",
+    rating: 0,
+    isFavorite: false,
+    specialties: "hehe",
+    video: "",
+    education: "",
+    experience: "",
+    interests: "",
+    languages: "",
+    totalFeedbacks: 0,
+    courses: [],
+    // detailSpecialties: []
+  );
+
   void onFavorite() async {
     Map res = await widget.tutorService.favoriteTutor(widget.tutor.id);
 
@@ -29,6 +49,20 @@ class _TutorCardState extends State<TutorCard> {
       });
     } else if (res["status"] == "401") {
       Navigator.pushNamed(context, '/login');
+    }
+  }
+
+  Future<void> getDetailTutor() async {
+    Map response = await widget.tutorService.getTutorById(widget.tutor.id);
+
+    if (response["status"] == "200") {
+      setState(() {
+        detailTutorDTO = response["tutor"];
+      });
+    } else if (response["status"] == "401" && context.mounted) {
+      print(response["message"]);
+    } else {
+      print(response["message"]);
     }
   }
 
@@ -46,12 +80,14 @@ class _TutorCardState extends State<TutorCard> {
     return Container(
         margin: EdgeInsets.all(8),
         child: GestureDetector(
-            onTap: () {},
-            //   Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => TutorDetail(tutor: widget.tutor)));
-            // },
+            onTap: () async {
+              await getDetailTutor();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TutorDetail(tutor: detailTutorDTO)));
+            },
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -72,6 +108,7 @@ class _TutorCardState extends State<TutorCard> {
                             width: 30,
                           ),
                           Avatar(
+                            radius: 40,
                             avatarText: widget.tutor.name,
                             imageUrl: widget.tutor.avatar ??
                                 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',

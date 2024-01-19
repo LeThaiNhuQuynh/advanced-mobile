@@ -5,7 +5,12 @@ import 'package:http/http.dart' as http;
 class Avatar extends StatelessWidget {
   final String avatarText;
   final String imageUrl;
-  const Avatar({super.key, required this.avatarText, required this.imageUrl});
+  final double radius;
+  const Avatar(
+      {super.key,
+      required this.radius,
+      required this.avatarText,
+      required this.imageUrl});
 
   Future<Uint8List?> loadImage() async {
     try {
@@ -33,7 +38,7 @@ class Avatar extends StatelessWidget {
             print("Error loading image: ${snapshot.error}");
             return CircleAvatar(
               backgroundColor: Colors.blue,
-              radius: 40, // You can set the background color
+              radius: radius,
               child: Text(
                 avatarText
                     .toUpperCase(), // Display the first letter of the username

@@ -3,19 +3,29 @@ import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
+import 'package:advanced_mobile_project/core/dtos/comment-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/detail-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/models/comment.dart';
+import 'package:advanced_mobile_project/core/models/specialtity.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/introduction.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/schedule.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/video.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
+import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../common/avatar.dart';
+import '../../core/dtos/filter-item-dto.dart';
+import '../tutor-list/tutor-list-items/filter_item.dart';
 
 class TutorDetail extends StatefulWidget {
   TutorDetail({super.key, required this.tutor});
 
-  Tutor1 tutor;
+  TutorService tutorService = TutorService.instance;
+  DetailTutorDTO tutor;
 
   GlobalKey<ScaffoldState> _key = GlobalKey();
 
@@ -24,18 +34,63 @@ class TutorDetail extends StatefulWidget {
 }
 
 class _TutorDetailState extends State<TutorDetail> {
+  List<CommentDTO> _comments = [];
+  int _totalPageComments = 1;
+
+  void onFavorite() async {
+    Map res = await widget.tutorService.favoriteTutor(widget.tutor.id);
+
+    if (res["status"] == "200") {
+      setState(() {
+        widget.tutor.isFavorite = !widget.tutor.isFavorite;
+      });
+    } else if (res["status"] == "401") {
+      Navigator.of(context).pop();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TutorList()),
+      );
+    }
+  }
+
+  Future<void> getComments(int page) async {
+    var res = await widget.tutorService.getComments(widget.tutor.id, 12, page);
+    if (res["status"] == "200") {
+      List<CommentDTO> comments = res["feedbacks"];
+      setState(() {
+        _comments = comments;
+        _totalPageComments = res["total"];
+      });
+    } else if (res["status"] == "401") {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TutorList()),
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getComments(1);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> languages = widget.tutor.languages.map((String item) {
-      return SkillItem(content: item);
+    List<Speciality> specialities =
+        (widget.tutor.specialties?.split(',') ?? []).map((String item) {
+      return Speciality(key: item);
     }).toList();
 
-    List<Widget> subjects = widget.tutor.specialities.map((String item) {
-      return SkillItem(content: item);
+    List<Widget> filterWidgets = specialities.map((Speciality item) {
+      return SkillItem(content: item.name);
     }).toList();
 
-    List<Widget> comments = widget.tutor.feedbacks.map((Comment item) {
-      return CommentWidget(comment: item);
+    List<Widget> comments = _comments.map((CommentDTO item) {
+      return CommentWidget(commentDTO: item);
     }).toList();
 
     return Scaffold(
@@ -53,9 +108,11 @@ class _TutorDetailState extends State<TutorDetail> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
+                  Avatar(
                     radius: 60,
-                    backgroundImage: AssetImage(widget.tutor.avatar),
+                    avatarText: widget.tutor.name,
+                    imageUrl: widget.tutor.avatar ??
+                        'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
                   ),
                   Column(
                     children: [
@@ -83,7 +140,7 @@ class _TutorDetailState extends State<TutorDetail> {
                                 ),
                               ),
                               Text(
-                                widget.tutor.country,
+                                widget.tutor.country ?? '',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w200,
@@ -97,7 +154,7 @@ class _TutorDetailState extends State<TutorDetail> {
                                 (index) => Container(
                                   margin: EdgeInsets.only(right: 4),
                                   child: Icon(
-                                    index < widget.tutor.feedback
+                                    index < widget.tutor.rating
                                         ? Icons.star
                                         : Icons.star_border,
                                     color: Colors.yellow,
@@ -115,7 +172,7 @@ class _TutorDetailState extends State<TutorDetail> {
               Container(
                 margin: EdgeInsets.all(8),
                 width: double.infinity,
-                child: Introduction(introduction: widget.tutor.introduction),
+                child: Introduction(introduction: widget.tutor.bio),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 GestureDetector(
@@ -124,18 +181,10 @@ class _TutorDetailState extends State<TutorDetail> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: widget.tutor.liked
-                            ? () {
-                                setState(() {
-                                  widget.tutor.liked = false;
-                                });
-                              }
-                            : () {
-                                setState(() {
-                                  widget.tutor.liked = true;
-                                });
-                              },
-                        child: widget.tutor.liked
+                        onTap: () {
+                          onFavorite();
+                        },
+                        child: widget.tutor.isFavorite
                             ? SvgPicture.asset(
                                 'assets/svgs/fill-heart.svg',
                                 color: Colors.red,
@@ -149,7 +198,7 @@ class _TutorDetailState extends State<TutorDetail> {
                               ),
                       ),
                       SizedBox(height: 10),
-                      widget.tutor.liked
+                      widget.tutor.isFavorite
                           ? Text(
                               'Favorite',
                               style: TextStyle(
@@ -208,7 +257,7 @@ class _TutorDetailState extends State<TutorDetail> {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      widget.tutor.education,
+                      widget.tutor.education ?? '',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,
@@ -234,7 +283,9 @@ class _TutorDetailState extends State<TutorDetail> {
                   ]),
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
-                    child: Wrap(children: languages),
+                    child: SkillItem(
+                      content: widget.tutor.languages ?? '',
+                    ),
                   ),
                   SizedBox(height: 20),
                 ],
@@ -254,7 +305,7 @@ class _TutorDetailState extends State<TutorDetail> {
                   ]),
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
-                    child: Wrap(children: subjects),
+                    child: Wrap(children: filterWidgets),
                   ),
                   SizedBox(height: 20),
                 ],
@@ -354,7 +405,7 @@ class _TutorDetailState extends State<TutorDetail> {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      widget.tutor.interests,
+                      widget.tutor.interests ?? '',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,
@@ -381,7 +432,7 @@ class _TutorDetailState extends State<TutorDetail> {
                   Container(
                     margin: EdgeInsets.only(top: 10, left: 20),
                     child: Text(
-                      widget.tutor.experience,
+                      widget.tutor.experience ?? '',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w300,

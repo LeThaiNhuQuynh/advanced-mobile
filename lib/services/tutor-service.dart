@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:advanced_mobile_project/core/constants/api.dart';
 import 'package:advanced_mobile_project/core/constants/share-preference.dart';
+import 'package:advanced_mobile_project/core/dtos/comment-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/detail-tutor-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
 import 'package:advanced_mobile_project/core/models/general-tutor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -128,74 +130,74 @@ class TutorService {
     }
   }
 
-  // Future<Map> getTutorById(String id) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //
-  //   var res = await http.get(Uri.parse('$SERVER_HOST$TUTOR/$id'), headers: {
-  //     'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
-  //   });
-  //
-  //   var decodedResponse = jsonDecode(res.body);
-  //
-  //   if (res.statusCode == 200) {
-  //     DetailedTutorDTO tutor = DetailedTutorDTO.fromJson(decodedResponse);
-  //
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "tutor": tutor,
-  //     };
-  //   } else if (res.statusCode == 401) {
-  //     await prefs.remove(TOKEN_KEY);
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "message": decodedResponse["message"],
-  //       "tutor": null
-  //     };
-  //   } else {
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "message": decodedResponse["message"]
-  //     };
-  //   }
-  // }
+  Future<Map> getTutorById(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  // Future<Map> getFeedbacks(String id, int perPage, int page) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //
-  //   var res = await http.get(
-  //       Uri.parse('$SERVER_HOST/feedback/v2/$id?page=$page&perPage=$perPage'),
-  //       headers: {
-  //         'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
-  //       });
-  //
-  //   var decodedResponse = jsonDecode(res.body);
-  //
-  //   if (res.statusCode == 200) {
-  //     List<FeedbackDTO> feedbacks = decodedResponse["data"]["rows"]
-  //         .cast<Map<String, dynamic>>()
-  //         .map<FeedbackDTO>((feedback) => FeedbackDTO.fromJson(feedback))
-  //         .toList();
-  //
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "feedbacks": feedbacks,
-  //       "total": (decodedResponse["data"]["count"] / perPage).ceil()
-  //     };
-  //   } else if (res.statusCode == 401) {
-  //     await prefs.remove(TOKEN_KEY);
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "message": decodedResponse["message"],
-  //       "feedbacks": null
-  //     };
-  //   } else {
-  //     return {
-  //       "status": res.statusCode.toString(),
-  //       "message": decodedResponse["message"]
-  //     };
-  //   }
-  // }
-  //
+    var res = await http.get(Uri.parse('$SERVER_HOST$TUTOR/$id'), headers: {
+      'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
+    });
+
+    var decodedResponse = jsonDecode(res.body);
+
+    if (res.statusCode == 200) {
+      DetailTutorDTO tutor = DetailTutorDTO.fromJson(decodedResponse);
+
+      return {
+        "status": res.statusCode.toString(),
+        "tutor": tutor,
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"],
+        "tutor": null
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+
+  Future<Map> getComments(String id, int perPage, int page) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var res = await http.get(
+        Uri.parse('$SERVER_HOST/feedback/v2/$id?page=$page&perPage=$perPage'),
+        headers: {
+          'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
+        });
+
+    var decodedResponse = jsonDecode(res.body);
+
+    if (res.statusCode == 200) {
+      List<CommentDTO> comments = decodedResponse["data"]["rows"]
+          .cast<Map<String, dynamic>>()
+          .map<CommentDTO>((comment) => CommentDTO.fromJson(comment))
+          .toList();
+
+      return {
+        "status": res.statusCode.toString(),
+        "feedbacks": comments,
+        "total": (decodedResponse["data"]["count"] / perPage).ceil()
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"],
+        "feedbacks": null
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+
   //
   // Future<Map> reportTutor(String id, String content) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();

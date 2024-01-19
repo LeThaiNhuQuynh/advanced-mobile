@@ -1,20 +1,23 @@
-import 'package:advanced_mobile_project/core/models/comment.dart';
+import 'package:advanced_mobile_project/common/avatar.dart';
+import 'package:advanced_mobile_project/core/dtos/comment-dto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommentWidget extends StatelessWidget {
-  CommentWidget({Key? key, required this.comment}) : super(key: key);
+  CommentWidget({Key? key, required this.commentDTO}) : super(key: key);
 
-  Comment comment;
+  CommentDTO commentDTO;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CircleAvatar(
+        Avatar(
           radius: 20,
-          backgroundImage: AssetImage(comment.tutor.avatar),
+          avatarText: commentDTO.name,
+          imageUrl: commentDTO.avatar ??
+              'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
         ),
         Column(
           children: [
@@ -24,7 +27,7 @@ class CommentWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    comment.tutor.name,
+                    commentDTO.name,
                     style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w300,
@@ -37,7 +40,7 @@ class CommentWidget extends StatelessWidget {
                       (index) => Container(
                         margin: EdgeInsets.only(right: 4),
                         child: Icon(
-                          index < comment.tutor.feedback
+                          index < commentDTO.rating
                               ? Icons.star
                               : Icons.star_border,
                           color: Colors.yellow,
@@ -48,7 +51,7 @@ class CommentWidget extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Text(
-                      comment.text,
+                      commentDTO.content,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
