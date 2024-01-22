@@ -1,10 +1,13 @@
 import 'package:advanced_mobile_project/core/constants/validator.dart';
 import 'package:advanced_mobile_project/core/dtos/login-dto.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/log-in/log-in-items/forgot_password.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:advanced_mobile_project/services/authencation-service.dart';
+import 'package:advanced_mobile_project/services/user-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -383,6 +386,8 @@ class _LogInState extends State<LogIn> {
     }
 
     AuthenticationService authApi = AuthenticationService.instance;
+    UserService userService = UserService.instance;
+    final userProvider = context.read<UserProvider>();
 
     authApi.login(_loginDTO).then((value) {
       if (value["status"] != "200") {
@@ -394,6 +399,13 @@ class _LogInState extends State<LogIn> {
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => TutorList()));
+
+        userService.getUser().then((user) {
+          if (value["status"] == "200") {
+            userProvider.setUserDTO(user["user"]);
+          }
+          ;
+        });
       }
     });
   }

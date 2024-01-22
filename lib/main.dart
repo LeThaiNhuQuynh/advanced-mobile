@@ -1,5 +1,6 @@
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/course-detail/course-detail.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
@@ -9,6 +10,7 @@ import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:advanced_mobile_project/presentation/video-call/video.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,13 +63,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
-      ),
-      home: LogIn(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+            useMaterial3: true,
+          ),
+          home: LogIn(),
+        ));
   }
 }

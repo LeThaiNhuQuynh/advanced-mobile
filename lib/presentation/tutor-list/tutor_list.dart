@@ -3,6 +3,7 @@ import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
 import 'package:advanced_mobile_project/core/models/general-tutor.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/pagination.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
@@ -10,6 +11,7 @@ import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/dtos/general-tutor-dto.dart';
 import '../../core/models/tutor.dart';

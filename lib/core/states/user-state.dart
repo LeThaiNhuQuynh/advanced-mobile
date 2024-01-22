@@ -2,7 +2,7 @@ import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/user.dart';
 import 'package:flutter/foundation.dart';
 
-class UserAppState extends ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   User? user;
   UserDTO? userDTO;
   bool isLoading = false;
