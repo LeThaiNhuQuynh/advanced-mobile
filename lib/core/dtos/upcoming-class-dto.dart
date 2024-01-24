@@ -4,11 +4,17 @@ class UpcomingClassDTO {
   String tutorId;
   String userId;
   String token;
+  String? tutorName;
+  String? tutorAvatar;
+  String? tutorCountry;
 
   UpcomingClassDTO(
       {required this.date,
       required this.time,
       required this.tutorId,
       required this.userId,
-      required this.token});
+      required this.token,
+      this.tutorName,
+      this.tutorAvatar,
+      this.tutorCountry});
 }

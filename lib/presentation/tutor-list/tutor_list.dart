@@ -7,7 +7,7 @@ import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/general-tutor.dart';
 import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
-import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/pagination.dart';
+import 'package:advanced_mobile_project/common/pagination.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/upcoming-lesson-banner.dart';
 import 'package:advanced_mobile_project/services/tutor-service.dart';
@@ -134,7 +134,7 @@ class _TutorListState extends State<TutorList> {
     super.initState();
 
     getUser();
-    getTutorList(1);
+    getTutorList(currentPage);
     getSpecialities();
     getTotalLessonHours();
   }

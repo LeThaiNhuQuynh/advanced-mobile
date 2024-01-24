@@ -1,10 +1,13 @@
+import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:flutter/material.dart';
 
-class ScheduleCard extends StatelessWidget {
-  ScheduleCard({super.key, required this.tutor});
+import '../../../common/avatar.dart';
 
-  Tutor1 tutor;
+class ScheduleCard extends StatelessWidget {
+  ScheduleCard({super.key, required this.classDTO});
+
+  UpcomingClassDTO classDTO;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +15,12 @@ class ScheduleCard extends StatelessWidget {
       width: double.infinity,
       color: Colors.grey[300],
       padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Wed, 10 Jan 24',
+            classDTO.date,
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
@@ -43,9 +47,10 @@ class ScheduleCard extends StatelessWidget {
                 SizedBox(
                   width: 20,
                 ),
-                CircleAvatar(
+                Avatar(
+                  imageUrl: classDTO.tutorAvatar ?? "",
                   radius: 50,
-                  backgroundImage: AssetImage(tutor.avatar),
+                  avatarText: classDTO.tutorName ?? "",
                 ),
                 Column(
                   children: [
@@ -56,7 +61,7 @@ class ScheduleCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            tutor.name,
+                            classDTO.tutorName ?? "Unknown",
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
@@ -73,7 +78,7 @@ class ScheduleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              tutor.country,
+                              classDTO.tutorCountry ?? "Unknown",
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w200,
@@ -129,7 +134,7 @@ class ScheduleCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '18:00 - 18:30',
+                        classDTO.time,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,

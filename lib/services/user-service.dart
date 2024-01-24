@@ -120,4 +120,74 @@ class UserService {
       };
     }
   }
+
+  Future<Map> getClassList(int timezone, int currentPage) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var res = await http.get(
+        Uri.parse(
+            '$SERVER_HOST/booking/list/student?page=${currentPage}&perPage=2&inFuture=1&orderBy=meeting&sortBy=asc'),
+        headers: {'Authorization': 'Bearer ${prefs.get(TOKEN_KEY)}'});
+
+    List<UpcomingClassDTO> classList = [];
+
+    Map decodedResponse = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      if (decodedResponse["data"]['count'] == 0) {
+        return {"status": res.statusCode.toString(), "classList": []};
+      }
+
+      List data = decodedResponse["data"]["rows"];
+
+      for (var i = 0; i < data.length; i++) {
+        DateTime startTime = TimestampToDateTime.transfer(
+            data[i]["scheduleDetailInfo"]["startPeriodTimestamp"],
+            timezone: timezone);
+        DateTime endTime = TimestampToDateTime.transfer(
+            data[i]["scheduleDetailInfo"]["endPeriodTimestamp"],
+            timezone: timezone);
+        String meetingLink = data[i]["studentMeetingLink"];
+        // Define the regular expression pattern
+        RegExp regex = RegExp(r"token=([^\&]+)");
+        // Match the pattern in the input string
+        Match? match = regex.firstMatch(meetingLink);
+        // Extract the token
+        String token = match?.group(1) ?? "";
+        UpcomingClassDTO upcomingClassDTO = UpcomingClassDTO(
+          date: DateFormat('EEE, dd MMM yy').format(startTime),
+          time:
+              '${startTime.hour}:${startTime.minute} - ${endTime.hour}:${endTime.minute}',
+          tutorId: data[i]["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]
+              ["id"],
+          userId: data[i]["userId"],
+          token: token,
+          tutorName: data[i]["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]
+              ["name"],
+          tutorAvatar: data[i]["scheduleDetailInfo"]["scheduleInfo"]
+              ["tutorInfo"]["avatar"],
+          tutorCountry: data[i]["scheduleDetailInfo"]["scheduleInfo"]
+              ["tutorInfo"]["country"],
+        );
+
+        classList.add(upcomingClassDTO);
+      }
+
+      return {
+        "status": res.statusCode.toString(),
+        "classList": classList,
+        "total": (decodedResponse["data"]['count'] / 2).ceil() //perPage=20
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
 }

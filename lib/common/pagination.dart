@@ -38,7 +38,7 @@ class _PaginationState extends State<Pagination> {
             style: TextButton.styleFrom(
               backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(10),
               ),
               side: const BorderSide(
                 color: Color(0xFF0071f0),
@@ -46,6 +46,7 @@ class _PaginationState extends State<Pagination> {
               ),
             ),
           ),
+          SizedBox(width: 8),
           for (int i = 1; i <= widget.totalPage; i++)
             TextButton(
               child: Text(
@@ -64,7 +65,7 @@ class _PaginationState extends State<Pagination> {
                 backgroundColor:
                     i == currentPage ? Color(0xFF0071f0) : Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 side: const BorderSide(
                   color: Color(0xFF0071f0),
@@ -72,6 +73,7 @@ class _PaginationState extends State<Pagination> {
                 ),
               ),
             ),
+          SizedBox(width: 8),
           TextButton(
             child: Text(
               '>',
@@ -90,7 +92,7 @@ class _PaginationState extends State<Pagination> {
             style: TextButton.styleFrom(
               backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(10),
               ),
               side: const BorderSide(
                 color: Color(0xFF0071f0),
