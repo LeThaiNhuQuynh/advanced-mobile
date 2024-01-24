@@ -26,13 +26,31 @@ class CommentWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    commentDTO.name,
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black,
-                        fontSize: 16),
+                  Row(
+                    children: [
+                      Text(
+                        commentDTO.name,
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey[800],
+                            fontSize: 14),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        formatDuration(commentDTO.updatedAt),
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey[400],
+                            fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 4,
                   ),
                   Row(
                     children: List.generate(
@@ -48,8 +66,11 @@ class CommentWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 4,
+                  ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
                       commentDTO.content,
                       style: TextStyle(
@@ -66,5 +87,34 @@ class CommentWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String formatDuration(DateTime updatedDate) {
+    Duration duration = DateTime.now().difference(updatedDate);
+
+    if (duration.inDays > 0) {
+      if (duration.inDays == 1) {
+        return 'a day ago';
+      }
+      return '${duration.inDays} days ago';
+    } else if (duration.inHours > 0) {
+      if (duration.inHours == 1) {
+        return 'an hour ago';
+      }
+      return '${duration.inHours} hours ago';
+    } else if (duration.inMinutes > 0) {
+      if (duration.inMinutes == 1) {
+        return 'a minute ago';
+      }
+      return '${duration.inMinutes} minutes ago';
+    } else {
+      if (duration.inSeconds <= 0) {
+        return 'just now';
+      }
+      if (duration.inSeconds == 1) {
+        return 'a second ago';
+      }
+      return '${duration.inSeconds} seconds ago';
+    }
   }
 }

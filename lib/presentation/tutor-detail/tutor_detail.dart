@@ -5,17 +5,21 @@ import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/common/skill_item.dart';
 import 'package:advanced_mobile_project/core/dtos/comment-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/detail-tutor-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/schedule-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/specialtity.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/introduction.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/schedule.dart';
+import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/scheduler.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/video.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/avatar.dart';
 import '../../core/dtos/filter-item-dto.dart';
@@ -36,6 +40,16 @@ class TutorDetail extends StatefulWidget {
 class _TutorDetailState extends State<TutorDetail> {
   List<CommentDTO> _comments = [];
   int _totalPageComments = 1;
+  UserDTO? _userDTO;
+  List<ScheduleDTO> _schedules = [];
+
+  void getUser() async {
+    final userProvider = context.read<UserProvider>();
+    setState(() {
+      _userDTO = userProvider.userDTO;
+    });
+    _getSchedules();
+  }
 
   void onFavorite() async {
     Map res = await widget.tutorService.favoriteTutor(widget.tutor.id);
@@ -72,9 +86,29 @@ class _TutorDetailState extends State<TutorDetail> {
     }
   }
 
+  Future<void> _getSchedules() async {
+    var res = await widget.tutorService.getScheduleByTutor(
+        _userDTO!.id, widget.tutor.id, 0, _userDTO!.timezone);
+    if (res["status"] == "200") {
+      List<ScheduleDTO> schedules = res["schedules"];
+      setState(() {
+        _schedules = schedules;
+      });
+    } else if (res["status"] == "401") {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TutorList()),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    getUser();
     getComments(1);
   }
 
@@ -463,7 +497,15 @@ class _TutorDetailState extends State<TutorDetail> {
                   SizedBox(height: 20),
                 ],
               ),
-              Schedule(),
+              Scheduler(
+                schedules: _schedules,
+                user: _userDTO,
+                reloadSchedule: () {
+                  setState(() {
+                    _getSchedules();
+                  });
+                },
+              ),
               SizedBox(height: 20),
             ],
           ),

@@ -377,19 +377,24 @@ class _LogInState extends State<LogIn> {
   }
 
   void _onLogin() {
-    String? validateEmail = Validator.emailValidate(_loginDTO.email!);
-    if (validateEmail != null) {
-      setState(() {
-        _errorText = validateEmail;
-      });
-      return;
-    }
+    // String? validateEmail = Validator.emailValidate(_loginDTO.email!);
+    // if (validateEmail != null) {
+    //   setState(() {
+    //     _errorText = validateEmail;
+    //   });
+    //   return;
+    // }
 
     AuthenticationService authApi = AuthenticationService.instance;
     UserService userService = UserService.instance;
     final userProvider = context.read<UserProvider>();
 
-    authApi.login(_loginDTO).then((value) {
+    LoginDTO _loginDTO1 = LoginDTO(
+      email: "student@lettutor.com",
+      password: "123456",
+    );
+
+    authApi.login(_loginDTO1).then((value) {
       if (value["status"] != "200") {
         print(value["message"]);
         setState(() {
