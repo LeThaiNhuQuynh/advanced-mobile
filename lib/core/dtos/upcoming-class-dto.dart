@@ -7,6 +7,7 @@ class UpcomingClassDTO {
   String? tutorName;
   String? tutorAvatar;
   String? tutorCountry;
+  String? scheduleId;
 
   UpcomingClassDTO(
       {required this.date,
@@ -16,5 +17,6 @@ class UpcomingClassDTO {
       required this.token,
       this.tutorName,
       this.tutorAvatar,
-      this.tutorCountry});
+      this.tutorCountry,
+      this.scheduleId});
 }

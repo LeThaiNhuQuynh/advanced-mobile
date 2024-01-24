@@ -15,3 +15,5 @@ const String TOTAL_LESSON_HOURS = "/call/total";
 const String TUTOR = "/tutor";
 
 const String UPCOMING_LESSON = "/booking/next";
+
+const String BOOKING_DETAIL = "/booking/schedule-detail";

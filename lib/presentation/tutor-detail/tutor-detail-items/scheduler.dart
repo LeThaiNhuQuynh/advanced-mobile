@@ -173,14 +173,15 @@ class _SchedulerState extends State<Scheduler> {
                             widget.startTimes[i].minute,
                           );
 
-                          // showDialog(
-                          //   context: AppContext.navigatorKey.currentContext!,
-                          //   builder: (context) => BookingDialog(
-                          //     time: time,
-                          //     bookingDetailId: schedule.id,
-                          //     walletAmount: widget.user.walletAmount,
-                          //   ),
-                          // );
+                          showDialog(
+                            context: context,
+                            builder: (context) => BookingDialog(
+                              time: time,
+                              bookingDetailId: schedule.id,
+                              walletAmount: widget.user!.walletAmount,
+                              reloadSchedule: widget.reloadSchedule,
+                            ),
+                          );
                         }, // Default onPressed when it's not today
                   style: TextButton.styleFrom(
                       backgroundColor: Color(0xFF0071f0),

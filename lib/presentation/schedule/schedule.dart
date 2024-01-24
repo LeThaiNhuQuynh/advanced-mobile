@@ -60,6 +60,11 @@ class _ScheduleState extends State<Schedule> {
     List<Widget> scheduleCards = _upcomingClassDTO.map((UpcomingClassDTO item) {
       return ScheduleCard(
         classDTO: item,
+        reloadList: () {
+          setState(() {
+            getClassList(_currentPage);
+          });
+        },
       );
     }).toList();
 

@@ -126,7 +126,7 @@ class UserService {
 
     var res = await http.get(
         Uri.parse(
-            '$SERVER_HOST/booking/list/student?page=${currentPage}&perPage=2&inFuture=1&orderBy=meeting&sortBy=asc'),
+            '$SERVER_HOST/booking/list/student?page=${currentPage}&perPage=20&inFuture=1&orderBy=meeting&sortBy=asc'),
         headers: {'Authorization': 'Bearer ${prefs.get(TOKEN_KEY)}'});
 
     List<UpcomingClassDTO> classList = [];
@@ -167,6 +167,7 @@ class UserService {
               ["tutorInfo"]["avatar"],
           tutorCountry: data[i]["scheduleDetailInfo"]["scheduleInfo"]
               ["tutorInfo"]["country"],
+          scheduleId: data[i]["id"],
         );
 
         classList.add(upcomingClassDTO);
@@ -175,7 +176,7 @@ class UserService {
       return {
         "status": res.statusCode.toString(),
         "classList": classList,
-        "total": (decodedResponse["data"]['count'] / 2).ceil() //perPage=20
+        "total": (decodedResponse["data"]['count'] / 20).ceil() //perPage=20
       };
     } else if (res.statusCode == 401) {
       await prefs.remove(TOKEN_KEY);
@@ -184,6 +185,45 @@ class UserService {
         "message": decodedResponse["message"]
       };
     } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+
+  Future<Map> cancelClass(String scheduleId, int option, String note) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var res = await http.delete(
+        Uri.parse(
+          '$SERVER_HOST/booking/schedule-detail',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${prefs.get(TOKEN_KEY)}',
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "scheduleDetailId": scheduleId,
+          "cancelInfo": {
+            "cancelReasonId": option,
+            if (note.isNotEmpty) "note": note
+          }
+        }));
+
+    Map decodedResponse = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      return {
+        "status": res.statusCode.toString(),
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      print(decodedResponse["message"]);
       return {
         "status": res.statusCode.toString(),
         "message": decodedResponse["message"]
