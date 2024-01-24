@@ -7,7 +7,9 @@ import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/pagination.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/tutor_card.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/upcoming-lesson-banner.dart';
 import 'package:advanced_mobile_project/services/tutor-service.dart';
+import 'package:advanced_mobile_project/services/user-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -21,6 +23,7 @@ import 'tutor-list-items/time_picker.dart';
 
 class TutorList extends StatefulWidget {
   TutorService tutorService = TutorService.instance;
+  UserService userService = UserService.instance;
   final int perPage = 12;
 
   TutorList({super.key});
@@ -37,6 +40,7 @@ class _TutorListState extends State<TutorList> {
   String currentFilter = "";
   String searchName = "";
   String noDataMessage = "";
+  int _totalLessonHours = 0;
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
 
@@ -84,14 +88,27 @@ class _TutorListState extends State<TutorList> {
     }
   }
 
+  Future<void> getTotalLessonHours() async {
+    Map response = await widget.userService.getTotalLessonHours();
+    if (response["status"] == "200") {
+      setState(() {
+        _totalLessonHours = response["totalLessonHours"] ?? 0;
+      });
+    } else if (response["status"] == "401" && context.mounted) {
+      print(response["message"]);
+    } else {
+      print(response["message"]);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
     // _getUser();
-    // getTotalLessonHours();
     getTutorList(1);
     getSpecialities();
+    getTotalLessonHours();
   }
 
   @override
@@ -127,47 +144,8 @@ class _TutorListState extends State<TutorList> {
           ),
           body: SingleChildScrollView(
               child: Column(children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 50, bottom: 50),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Color.fromRGBO(12, 61, 223, 1),
-                    Color.fromRGBO(5, 23, 157, 1),
-                  ],
-                  stops: [0.0, 1.0],
-                  transform: GradientRotation(144 * 3.14159 / 180),
-                ),
-              ),
-              child: const Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'You have no upcoming lesson',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Total lesson time is 515 hours 50 minutes',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            MyBanner(
+              totalLessonHours: _totalLessonHours,
             ),
             const SizedBox(height: 20),
             Padding(

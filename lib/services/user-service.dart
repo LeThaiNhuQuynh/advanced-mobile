@@ -40,4 +40,29 @@ class UserService {
       };
     }
   }
+
+  Future<Map> getTotalLessonHours() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var response =
+        await http.get(Uri.parse('$SERVER_HOST$TOTAL_LESSON_HOURS'), headers: {
+      'Authorization': 'Bearer ${prefs.getString(TOKEN_KEY)}',
+    });
+    var decodedResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return {
+        "status": response.statusCode.toString(),
+        "totalLessonHours": decodedResponse["total"]
+      };
+    } else if (response.statusCode == 401) {
+      return {
+        "status": response.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      return {
+        "status": response.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
 }
