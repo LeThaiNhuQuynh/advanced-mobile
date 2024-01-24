@@ -1,4 +1,4 @@
-import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/countdown.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class MyBanner extends StatelessWidget {
   });
 
   int totalLessonHours;
-  UpcomingClassDTO? upcomingClassDTO;
+  ClassDTO? upcomingClassDTO;
   Duration? countdownDuration;
 
   String handleTotalLessonHours(int inMinutes) {

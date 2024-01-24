@@ -1,58 +1,70 @@
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/common/pagination.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/history/history-items/history-card.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule-items/schedule-card.dart';
+import 'package:advanced_mobile_project/services/user-service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class History extends StatelessWidget {
-  Tutor1 tutor = Tutor1(
-      avatar: 'assets/images/avatar1.jpeg',
-      name: "Keegen",
-      country: "Philippines",
-      feedback: 3,
-      introduction:
-          "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.",
-      liked: false,
-      specialities: [
-        'English for kids',
-        'English for business',
-        'KET',
-        'STARTERS',
-        'PET',
-        'English for business',
-        'Conversational',
-        'STARTERS'
-      ],
-      education: 'BA',
-      languages: ['English', 'Filipino'],
-      interests:
-          ' I loved the weather, the scenery and the laid-back lifestyle of the locals.',
-      experience: 'I have more than 10 years of teaching english experience',
-      feedbacks: [
-        Comment(
-          tutor: Tutor1(
-              avatar: 'assets/images/avatar1.jpeg',
-              name: "Another",
-              country: "Vietnam",
-              feedback: 0,
-              introduction: "introduction",
-              liked: false,
-              specialities: List.empty(),
-              education: "education",
-              languages: List.empty(),
-              interests: "interests",
-              experience: "experience"),
-          text: "I have more than 10 years of teaching english experience",
-          star: 4,
-        )
-      ]);
+class History extends StatefulWidget {
+  UserService userService = UserService.instance;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  State<History> createState() => _HistoryState();
+}
+
+class _HistoryState extends State<History> {
   GlobalKey<ScaffoldState> _key = GlobalKey();
+  UserDTO? _userDTO;
+  List<ClassDTO> _historyClassDTO = [];
+
+  void getUser() async {
+    final userProvider = context.read<UserProvider>();
+    setState(() {
+      _userDTO = userProvider.userDTO;
+    });
+    getClassList();
+  }
+
+  Future<void> getClassList() async {
+    Map res = await widget.userService.getHistoryList(_userDTO?.timezone ?? 0);
+    if (res["status"] == "200") {
+      setState(() {
+        _historyClassDTO = res["classList"];
+      });
+    } else if (res["status"] == "401") {
+      if (context.mounted) {
+        print(res["message"]);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> historyCards = _historyClassDTO.map((ClassDTO item) {
+      return HistoryCard(
+        classDTO: item,
+        reloadList: () {
+          setState(() {
+            getClassList();
+          });
+        },
+      );
+    }).toList();
+
     return Scaffold(
       key: _key,
       appBar: Header(scaffoldKey: _key),
@@ -100,6 +112,7 @@ class History extends StatelessWidget {
                         ),
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Wrap(
                                 children: [
@@ -122,8 +135,14 @@ class History extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            HistoryCard(
-              tutor: tutor,
+            Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: historyCards,
+              ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             SizedBox(
               height: 20,

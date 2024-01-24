@@ -1,4 +1,4 @@
-import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule-items/cancel-dialog.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import '../../../common/avatar.dart';
 class ScheduleCard extends StatelessWidget {
   ScheduleCard({super.key, required this.classDTO, required this.reloadList});
 
-  UpcomingClassDTO classDTO;
+  ClassDTO classDTO;
   final void Function() reloadList;
 
   @override

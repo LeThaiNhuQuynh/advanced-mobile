@@ -1,10 +1,13 @@
+import 'package:advanced_mobile_project/common/avatar.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:flutter/material.dart';
 
 class HistoryCard extends StatelessWidget {
-  HistoryCard({super.key, required this.tutor});
+  HistoryCard({super.key, required this.classDTO, required this.reloadList});
 
-  Tutor1 tutor;
+  ClassDTO classDTO;
+  final void Function() reloadList;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +15,12 @@ class HistoryCard extends StatelessWidget {
       width: double.infinity,
       color: Colors.grey[300],
       padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Wed, 10 Jan 24',
+            classDTO.date,
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
@@ -43,10 +47,10 @@ class HistoryCard extends StatelessWidget {
                 SizedBox(
                   width: 20,
                 ),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage(tutor.avatar),
-                ),
+                Avatar(
+                    radius: 50,
+                    avatarText: classDTO.tutorName ?? "",
+                    imageUrl: classDTO.tutorAvatar ?? ""),
                 Column(
                   children: [
                     Container(
@@ -56,7 +60,7 @@ class HistoryCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            tutor.name,
+                            classDTO.tutorName ?? "Unknown",
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
@@ -73,7 +77,7 @@ class HistoryCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              tutor.country,
+                              classDTO.tutorCountry ?? "Unknown",
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w200,
@@ -123,7 +127,7 @@ class HistoryCard extends StatelessWidget {
                 color: Colors.white,
               ),
               child: Text(
-                'Lesson time: 19:00 - 20:20',
+                'Lesson time: ${classDTO.time}',
                 style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
@@ -153,14 +157,23 @@ class HistoryCard extends StatelessWidget {
                     children: [
                       Container(
                         padding: EdgeInsets.all(16),
-                        child: Text(
-                          'Request for lesson',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                              fontSize: 18),
-                        ),
+                        child: classDTO.studentRequest == null
+                            ? Text(
+                                'No request for lesson',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                    fontSize: 18),
+                              )
+                            : Text(
+                                'Request for lesson\n\n${classDTO.studentRequest}',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                    fontSize: 18),
+                              ),
                       )
                     ],
                   )),
@@ -177,29 +190,38 @@ class HistoryCard extends StatelessWidget {
                     children: [
                       Container(
                         padding: EdgeInsets.all(16),
-                        child: tutor.feedback > 0
-                            ? Row(
-                                children: List.generate(
-                                  5,
-                                  (index) => Container(
-                                    margin: EdgeInsets.only(right: 4),
-                                    child: Icon(
-                                      index < tutor.feedback
-                                          ? Icons.star
-                                          : Icons.star_border,
-                                      color: Colors.yellow,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                'Request for lesson',
+                        child: classDTO.rating == null
+                            ? Text(
+                                'No rating',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
                                     fontSize: 18),
-                              ),
+                              )
+                            : classDTO.rating! > 0
+                                ? Row(
+                                    children: List.generate(
+                                      5,
+                                      (index) => Container(
+                                        margin: EdgeInsets.only(right: 4),
+                                        child: Icon(
+                                          index < classDTO.rating!
+                                              ? Icons.star
+                                              : Icons.star_border,
+                                          color: Colors.yellow,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    'Request for lesson',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  ),
                       )
                     ],
                   )),

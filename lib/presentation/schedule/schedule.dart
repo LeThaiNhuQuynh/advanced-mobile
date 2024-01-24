@@ -1,6 +1,6 @@
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
-import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/comment.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
@@ -24,7 +24,7 @@ class _ScheduleState extends State<Schedule> {
   int _currentPage = 1;
   int _totalPages = 1;
   UserDTO? _userDTO;
-  List<UpcomingClassDTO> _upcomingClassDTO = [];
+  List<ClassDTO> _upcomingClassDTO = [];
 
   void getUser() async {
     final userProvider = context.read<UserProvider>();
@@ -57,7 +57,7 @@ class _ScheduleState extends State<Schedule> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> scheduleCards = _upcomingClassDTO.map((UpcomingClassDTO item) {
+    List<Widget> scheduleCards = _upcomingClassDTO.map((ClassDTO item) {
       return ScheduleCard(
         classDTO: item,
         reloadList: () {
@@ -115,6 +115,7 @@ class _ScheduleState extends State<Schedule> {
                         ),
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Wrap(
                                 children: [

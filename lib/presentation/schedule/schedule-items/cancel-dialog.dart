@@ -1,13 +1,13 @@
 import 'package:advanced_mobile_project/common/avatar.dart';
 import 'package:advanced_mobile_project/common/error-dialog.dart';
 import 'package:advanced_mobile_project/common/success-dialog.dart';
-import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:advanced_mobile_project/services/user-service.dart';
 import 'package:flutter/material.dart';
 
 class CancelDialog extends StatefulWidget {
-  UpcomingClassDTO classDTO;
+  ClassDTO classDTO;
   final void Function() reloadList;
 
   CancelDialog({required this.classDTO, required this.reloadList});
@@ -223,7 +223,7 @@ class _CancelDialogState extends State<CancelDialog> {
         widget.classDTO.scheduleId ?? "", selectedIndex, _note);
     if (res["status"] == "200") {
       widget.reloadList();
-      
+
       Navigator.pop(context);
       showDialog(
         context: context,

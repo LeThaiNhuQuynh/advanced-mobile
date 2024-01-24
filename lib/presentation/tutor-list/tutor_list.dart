@@ -2,7 +2,7 @@ import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
-import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/general-tutor.dart';
 import 'package:advanced_mobile_project/core/states/user-state.dart';
@@ -46,7 +46,7 @@ class _TutorListState extends State<TutorList> {
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
   UserDTO? _userDTO;
-  UpcomingClassDTO? _upcomingClassDTO;
+  ClassDTO? _upcomingClassDTO;
   Duration? _countdownDuration;
 
   Future<void> getTutorList(int page) async {

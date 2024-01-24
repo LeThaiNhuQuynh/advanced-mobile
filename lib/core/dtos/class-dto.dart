@@ -1,4 +1,4 @@
-class UpcomingClassDTO {
+class ClassDTO {
   String date;
   String time;
   String tutorId;
@@ -8,8 +8,11 @@ class UpcomingClassDTO {
   String? tutorAvatar;
   String? tutorCountry;
   String? scheduleId;
+  int? rating;
+  String? tutorReview;
+  String? studentRequest;
 
-  UpcomingClassDTO(
+  ClassDTO(
       {required this.date,
       required this.time,
       required this.tutorId,
@@ -18,5 +21,8 @@ class UpcomingClassDTO {
       this.tutorName,
       this.tutorAvatar,
       this.tutorCountry,
-      this.scheduleId});
+      this.scheduleId,
+      this.rating,
+      this.tutorReview,
+      this.studentRequest});
 }
