@@ -402,14 +402,13 @@ class _LogInState extends State<LogIn> {
         });
         return;
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => TutorList()));
-
         userService.getUser().then((user) {
           if (value["status"] == "200") {
             userProvider.setUserDTO(user["user"]);
           }
           ;
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TutorList()));
         });
       }
     });

@@ -1,5 +1,8 @@
 import 'package:advanced_mobile_project/core/constants/api.dart';
+import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
+import 'package:advanced_mobile_project/utils/timestamp-to-datetime.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -61,6 +64,58 @@ class UserService {
     } else {
       return {
         "status": response.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+
+  Future<Map> getUpcomingLesson(int timezone) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var res = await http.get(Uri.parse('$SERVER_HOST$UPCOMING_LESSON'),
+        headers: {'Authorization': 'Bearer ${prefs.get(TOKEN_KEY)}'});
+
+    Map decodedResponse = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      List data = decodedResponse["data"];
+      DateTime startTime = TimestampToDateTime.transfer(
+          data.first["scheduleDetailInfo"]["startPeriodTimestamp"],
+          timezone: timezone);
+      DateTime endTime = TimestampToDateTime.transfer(
+          data.first["scheduleDetailInfo"]["endPeriodTimestamp"],
+          timezone: timezone);
+      String meetingLink = data.first["studentMeetingLink"];
+      // Define the regular expression pattern
+      RegExp regex = RegExp(r"token=([^\&]+)");
+
+      // Match the pattern in the input string
+      Match? match = regex.firstMatch(meetingLink);
+
+      // Extract the token
+      String token = match?.group(1) ?? "";
+      UpcomingClassDTO upcomingClassDTO = UpcomingClassDTO(
+          date: DateFormat('EEE, dd MMM yy').format(startTime),
+          time:
+              '${startTime.hour}:${startTime.minute} - ${endTime.hour}:${endTime.minute}',
+          tutorId: data.first["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]
+              ["id"],
+          userId: data.first["userId"],
+          token: token);
+
+      return {
+        "status": res.statusCode.toString(),
+        "upcomingClass": upcomingClassDTO,
+        "startTime": startTime
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
         "message": decodedResponse["message"]
       };
     }

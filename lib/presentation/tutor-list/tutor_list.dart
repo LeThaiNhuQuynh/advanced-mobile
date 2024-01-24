@@ -2,6 +2,8 @@ import 'package:advanced_mobile_project/common/footer.dart';
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
 import 'package:advanced_mobile_project/core/dtos/filter-item-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/core/models/general-tutor.dart';
 import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor_detail.dart';
@@ -43,6 +45,9 @@ class _TutorListState extends State<TutorList> {
   int _totalLessonHours = 0;
   List<GeneralTutorDTO> tutorList = [];
   List<FilterItemDTO> specialities = [];
+  UserDTO? _userDTO;
+  UpcomingClassDTO? _upcomingClassDTO;
+  Duration? _countdownDuration;
 
   Future<void> getTutorList(int page) async {
     noDataMessage = "";
@@ -101,11 +106,34 @@ class _TutorListState extends State<TutorList> {
     }
   }
 
+  void getUser() async {
+    final userProvider = context.read<UserProvider>();
+    setState(() {
+      _userDTO = userProvider.userDTO;
+    });
+    getUpcomingClass();
+  }
+
+  Future<void> getUpcomingClass() async {
+    Map res =
+        await widget.userService.getUpcomingLesson(_userDTO?.timezone ?? 0);
+    if (res["status"] == "200") {
+      setState(() {
+        _upcomingClassDTO = res["upcomingClass"];
+        _countdownDuration = res["startTime"].difference(DateTime.now());
+      });
+    } else if (res["status"] == "401") {
+      if (context.mounted) {
+        print(res["message"]);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    // _getUser();
+    getUser();
     getTutorList(1);
     getSpecialities();
     getTotalLessonHours();
@@ -146,6 +174,8 @@ class _TutorListState extends State<TutorList> {
               child: Column(children: <Widget>[
             MyBanner(
               totalLessonHours: _totalLessonHours,
+              upcomingClassDTO: _upcomingClassDTO,
+              countdownDuration: _countdownDuration,
             ),
             const SizedBox(height: 20),
             Padding(

@@ -13,3 +13,5 @@ const String USER_INFO = "/user/info";
 const String TOTAL_LESSON_HOURS = "/call/total";
 
 const String TUTOR = "/tutor";
+
+const String UPCOMING_LESSON = "/booking/next";

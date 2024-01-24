@@ -1,12 +1,18 @@
+import 'package:advanced_mobile_project/core/dtos/upcoming-class-dto.dart';
+import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/countdown.dart';
 import 'package:flutter/material.dart';
 
 class MyBanner extends StatelessWidget {
   MyBanner({
     super.key,
     required this.totalLessonHours,
+    required this.upcomingClassDTO,
+    required this.countdownDuration,
   });
 
   int totalLessonHours;
+  UpcomingClassDTO? upcomingClassDTO;
+  Duration? countdownDuration;
 
   String handleTotalLessonHours(int inMinutes) {
     int hours = inMinutes ~/ 60;
@@ -63,57 +69,77 @@ class MyBanner extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text(
-                'Lesson time: ',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  side: const BorderSide(
-                    color: Colors.white, // Set your desired border color here
-                    width: 2.0, // Set the border width
-                  ),
-                ),
-                onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             TutorDetail(tutor: widget.tutor)));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.smart_display_outlined,
-                      color: Color(0xFF0071f0),
-                      size: 20,
+          upcomingClassDTO == null
+              ? Text('You have no upcoming lesson')
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          upcomingClassDTO!.date,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          upcomingClassDTO == null
+                              ? ""
+                              : upcomingClassDTO!.time,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        if (countdownDuration != null)
+                          Countdown(
+                            duration: countdownDuration!,
+                          ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Enter lesson room',
-                      style: TextStyle(
-                        color: Color(0xFF0071f0),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        side: const BorderSide(
+                          color: Colors
+                              .white, // Set your desired border color here
+                          width: 2.0, // Set the border width
+                        ),
+                      ),
+                      onPressed: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             TutorDetail(tutor: widget.tutor)));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.smart_display_outlined,
+                            color: Color(0xFF0071f0),
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Enter lesson room',
+                            style: TextStyle(
+                              color: Color(0xFF0071f0),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
           SizedBox(height: 20),
           Align(
             alignment: Alignment.center,
