@@ -285,31 +285,29 @@ class TutorService {
       return false;
     }
   }
-}
 
-//
-// Future<Map> reportTutor(String id, String content) async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   var res = await http.post(Uri.parse('$SERVER_HOST/report'),
-//       headers: {
-//         "Authorization": "Bearer ${prefs.getString(TOKEN_KEY)}",
-//         "Content-Type": "application/json",
-//       },
-//       body: jsonEncode({"tutorId": id, "content": content}));
-//   Map decodedResponse = jsonDecode(res.body);
-//   if (res.statusCode == 200) {
-//     return {"status": res.statusCode.toString(), "data": decodedResponse};
-//   } else if (res.statusCode == 401) {
-//     await prefs.remove(TOKEN_KEY);
-//     return {
-//       "status": res.statusCode.toString(),
-//       "message": decodedResponse["message"]
-//     };
-//   } else {
-//     return {
-//       "status": res.statusCode.toString(),
-//       "message": decodedResponse["message"]
-//     };
-//   }
-// }
-//
+  Future<Map> reportTutor(String id, String content) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var res = await http.post(Uri.parse('$SERVER_HOST/report'),
+        headers: {
+          "Authorization": "Bearer ${prefs.getString(TOKEN_KEY)}",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"tutorId": id, "content": content}));
+    Map decodedResponse = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      return {"status": res.statusCode.toString(), "data": decodedResponse};
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+}

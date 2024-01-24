@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:advanced_mobile_project/core/constants/share-preference.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/error-dialog.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/success-dialog.dart';
+import 'package:advanced_mobile_project/common/error-dialog.dart';
+import 'package:advanced_mobile_project/common/success-dialog.dart';
 import 'package:advanced_mobile_project/services/tutor-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,10 @@ class _BookingDialogState extends State<BookingDialog> {
 
       showDialog(
         context: context,
-        builder: (context) => BookingSuccessDialog(),
+        builder: (context) => BookingSuccessDialog(
+          title: "Booking",
+          message: "Check you mail's inbox to see detail order",
+        ),
       );
 
       widget.reloadSchedule();

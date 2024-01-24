@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:advanced_mobile_project/core/dtos/schedule-dto.dart';
 import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/booking-dialog.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/error-dialog.dart';
-import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/success-dialog.dart';
+import 'package:advanced_mobile_project/common/error-dialog.dart';
+import 'package:advanced_mobile_project/common/success-dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

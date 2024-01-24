@@ -13,6 +13,7 @@ import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/core/models/tutor.dart';
 import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/introduction.dart';
+import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/reporting-dialog.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/scheduler.dart';
 import 'package:advanced_mobile_project/presentation/tutor-detail/tutor-detail-items/video.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
@@ -252,25 +253,34 @@ class _TutorDetailState extends State<TutorDetail> {
                     ],
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svgs/report.svg',
-                      color: Color(0xFF0071f0),
-                      width: 30,
-                      height: 30,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Chat',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w300,
-                          color: Color(0xFF0071f0),
-                          fontSize: 16),
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          ReportDialog(tutorId: widget.tutor.id),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/svgs/report.svg',
+                        color: Color(0xFF0071f0),
+                        width: 30,
+                        height: 30,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Report',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xFF0071f0),
+                            fontSize: 16),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
               SizedBox(height: 30),

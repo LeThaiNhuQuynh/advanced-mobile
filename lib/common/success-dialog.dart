@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BookingSuccessDialog extends StatelessWidget {
+  String title;
+  String message;
+
+  BookingSuccessDialog({required this.title, required this.message});
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -17,7 +22,7 @@ class BookingSuccessDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Booking Detail',
+                  '${title} Detail',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -41,7 +46,7 @@ class BookingSuccessDialog extends StatelessWidget {
               ),
               SizedBox(height: 16.0),
               Text(
-                'Booking Success',
+                '${title} Success',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -49,7 +54,7 @@ class BookingSuccessDialog extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                "Check you mail's inbox to see detail order",
+                message,
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
