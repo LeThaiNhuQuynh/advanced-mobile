@@ -12,13 +12,11 @@ class HistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      color: Colors.grey[300],
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        width: double.infinity,
+        color: Colors.grey[300],
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             classDTO.date,
             style: TextStyle(
@@ -138,69 +136,105 @@ class HistoryCard extends StatelessWidget {
             height: 30,
           ),
           Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey[300]!,
-                        width: 1.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey[300]!,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: classDTO.studentRequest == null
+                                ? Text(
+                                    'No request for lesson',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  )
+                                : Text(
+                                    'Request for lesson\n\n${classDTO.studentRequest}',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  ),
+                          )
+                        ],
+                      )),
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey[300]!,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: classDTO.tutorReview == null
+                                ? Text(
+                                    'Tutor has not reviewed yet',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  )
+                                : Text(
+                                    'Tutor reviewed:\n\n${classDTO.studentRequest}',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  ),
+                          )
+                        ],
+                      )),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey[300]!,
+                          width: 1.0,
+                        ),
                       ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        child: classDTO.studentRequest == null
-                            ? Text(
-                                'No request for lesson',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 18),
-                              )
-                            : Text(
-                                'Request for lesson\n\n${classDTO.studentRequest}',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 18),
-                              ),
-                      )
-                    ],
-                  )),
-              Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey[300]!,
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        child: classDTO.rating == null
-                            ? Text(
-                                'No rating',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 18),
-                              )
-                            : classDTO.rating! > 0
-                                ? Row(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            child: classDTO.rating == null
+                                ? Text(
+                                    'Add a rating',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  )
+                                : Row(
                                     children: List.generate(
                                       5,
                                       (index) => Container(
@@ -213,66 +247,25 @@ class HistoryCard extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                  )
-                                : Text(
-                                    'Request for lesson',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black,
-                                        fontSize: 18),
                                   ),
-                      )
-                    ],
-                  )),
-              Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey[300]!,
-                        width: 1.0,
-                      ),
-                    ),
+                          ),
+                          TextButton(
+                            onPressed: null,
+                            child: Text(
+                              'Report',
+                              style: TextStyle(
+                                color: Color(0xFF0071f0),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Add a rating',
-                                style: TextStyle(
-                                  color: Color(0xFF0071f0),
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Repor',
-                                style: TextStyle(
-                                  color: Color(0xFF0071f0),
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-            ]),
-          ),
+                ],
+              )),
           SizedBox(
             height: 20,
-          ),
-        ],
-      ),
-    );
+          )
+        ]));
   }
 }
