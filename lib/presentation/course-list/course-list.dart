@@ -254,8 +254,13 @@ class CategoryTile extends StatelessWidget {
         ),
         for (var course in courses)
           CourseCard(
-            course: course,
-          ),
+              course: course,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CourseDetail(course: course)));
+              }),
       ],
     );
   }

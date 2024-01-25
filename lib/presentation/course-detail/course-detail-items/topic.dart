@@ -1,12 +1,13 @@
+import 'package:advanced_mobile_project/core/dtos/topic-dto.dart';
 import 'package:flutter/material.dart';
 
 class TopicCard extends StatelessWidget {
   final VoidCallback? onTap;
-  final String title;
+  final TopicDTO topic;
   final int index;
 
   const TopicCard(
-      {super.key, this.onTap, required this.title, required this.index});
+      {super.key, this.onTap, required this.index, required this.topic});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class TopicCard extends StatelessWidget {
                 color: Colors.white,
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  '$index.\n$title',
+                  '$index.\n${topic.name}',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,

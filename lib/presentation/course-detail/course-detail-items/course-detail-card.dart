@@ -1,13 +1,12 @@
+import 'package:advanced_mobile_project/core/dtos/course-dto.dart';
 import 'package:advanced_mobile_project/presentation/lesson/lesson.dart';
 import 'package:flutter/material.dart';
 
 class CourseDetailCard extends StatelessWidget {
   final VoidCallback? onTap;
-  final String title;
-  final String description;
+  final CourseDTO course;
 
-  const CourseDetailCard(
-      {super.key, this.onTap, required this.title, required this.description});
+  const CourseDetailCard({super.key, this.onTap, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +24,9 @@ class CourseDetailCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(
-                  image: AssetImage(
-                    'assets/images/course-card.png',
-                  ),
-                  fit: BoxFit.contain,
+                Image.network(
+                  course.imageUrl,
+                  fit: BoxFit.cover,
                 ),
                 SizedBox(
                   height: 12,
@@ -40,7 +37,7 @@ class CourseDetailCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          course.name,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
@@ -50,7 +47,7 @@ class CourseDetailCard extends StatelessWidget {
                           height: 12,
                         ),
                         Text(
-                          description,
+                          course.description,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w300,
@@ -74,7 +71,9 @@ class CourseDetailCard extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Lesson(),
+                                          builder: (context) => Lesson(
+                                              course: course,
+                                              topic: course.topics[0]),
                                         ));
                                   },
                                   child: Text(

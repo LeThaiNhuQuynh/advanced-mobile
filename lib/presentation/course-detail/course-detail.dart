@@ -1,9 +1,12 @@
 import 'package:advanced_mobile_project/common/header.dart';
 import 'package:advanced_mobile_project/common/menu.dart';
+import 'package:advanced_mobile_project/core/dtos/course-dto.dart';
+import 'package:advanced_mobile_project/core/dtos/topic-dto.dart';
 import 'package:advanced_mobile_project/presentation/course-detail/course-detail-items/course-detail-card.dart';
 import 'package:advanced_mobile_project/presentation/course-detail/course-detail-items/title.dart';
 import 'package:advanced_mobile_project/presentation/course-detail/course-detail-items/topic.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/course-card.dart';
+import 'package:advanced_mobile_project/presentation/course-list/course-list-items/level-controller.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/multi-select-dropdown.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list-items/tab-bar.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +14,31 @@ import 'package:flutter_svg/svg.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:provider/provider.dart';
 
+import '../lesson/lesson.dart';
+
 class CourseDetail extends StatelessWidget {
-  CourseDetail({super.key});
+  CourseDetail({super.key, required this.course});
 
   GlobalKey<ScaffoldState> _key = GlobalKey();
+  CourseDTO course;
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+    List<Widget> topicCards = course.topics.map((TopicDTO item) {
+      index++;
+      return TopicCard(
+        topic: item,
+        index: index,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Lesson(course: course, topic: item)));
+        },
+      );
+    }).toList();
+
     return Scaffold(
         key: _key,
         appBar: Header(scaffoldKey: _key),
@@ -30,11 +51,7 @@ class CourseDetail extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              CourseDetailCard(
-                title: 'Life in the Internet Age',
-                description:
-                    "Let's discuss how technology is changing the way we live",
-              ),
+              CourseDetailCard(course: course),
               SizedBox(height: 20),
               MyTitle(title: 'Overview'),
               SizedBox(height: 20),
@@ -64,7 +81,7 @@ class CourseDetail extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(left: 16),
                         child: Text(
-                          'Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor.',
+                          course.reason,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
@@ -104,7 +121,7 @@ class CourseDetail extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(left: 16),
                         child: Text(
-                          'You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends.',
+                          course.purpose,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
@@ -124,7 +141,7 @@ class CourseDetail extends StatelessWidget {
                 children: [
                   Icon(Icons.people_alt_outlined, color: Color(0xFF0071f0)),
                   SizedBox(width: 20),
-                  Text('Intermediate',
+                  Text(Level.getLevel(course.level),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
@@ -138,7 +155,7 @@ class CourseDetail extends StatelessWidget {
                 children: [
                   Icon(Icons.class_, color: Color(0xFF0071f0)),
                   SizedBox(width: 20),
-                  Text('9 topics',
+                  Text('${course.topics.length} topics',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
@@ -148,10 +165,7 @@ class CourseDetail extends StatelessWidget {
               SizedBox(height: 20),
               MyTitle(title: 'List topics'),
               SizedBox(height: 20),
-              Column(
-                children: List.generate(5,
-                    (index) => TopicCard(title: 'The internet', index: index)),
-              ),
+              Column(children: topicCards),
               SizedBox(height: 20),
               MyTitle(title: 'Suggested Tutors'),
               Row(
