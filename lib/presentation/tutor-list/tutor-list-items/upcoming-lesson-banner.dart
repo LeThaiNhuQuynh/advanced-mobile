@@ -1,19 +1,27 @@
 import 'package:advanced_mobile_project/core/dtos/class-dto.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor-list-items/countdown.dart';
+import 'package:advanced_mobile_project/presentation/video-call/go-meeting.dart';
 import 'package:flutter/material.dart';
 
-class MyBanner extends StatelessWidget {
+class MyBanner extends StatefulWidget {
   MyBanner({
     super.key,
     required this.totalLessonHours,
     required this.upcomingClassDTO,
     required this.countdownDuration,
+    required this.startTime,
   });
 
   int totalLessonHours;
   ClassDTO? upcomingClassDTO;
   Duration? countdownDuration;
+  DateTime startTime;
 
+  @override
+  State<MyBanner> createState() => _MyBannerState();
+}
+
+class _MyBannerState extends State<MyBanner> {
   String handleTotalLessonHours(int inMinutes) {
     int hours = inMinutes ~/ 60;
     int minutes = inMinutes % 60;
@@ -69,7 +77,7 @@ class MyBanner extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          upcomingClassDTO == null
+          widget.upcomingClassDTO == null
               ? Text('You have no upcoming lesson')
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,24 +86,24 @@ class MyBanner extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          upcomingClassDTO!.date,
+                          widget.upcomingClassDTO!.date,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                           ),
                         ),
                         Text(
-                          upcomingClassDTO == null
+                          widget.upcomingClassDTO == null
                               ? ""
-                              : upcomingClassDTO!.time,
+                              : widget.upcomingClassDTO!.time,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                           ),
                         ),
-                        if (countdownDuration != null)
+                        if (widget.countdownDuration != null)
                           Countdown(
-                            duration: countdownDuration!,
+                            duration: widget.countdownDuration!,
                           ),
                       ],
                     ),
@@ -112,11 +120,16 @@ class MyBanner extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             TutorDetail(tutor: widget.tutor)));
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => JoinMeetingScreen(
+                                      userId: widget.upcomingClassDTO!.userId,
+                                      tutorId: widget.upcomingClassDTO!.tutorId,
+                                      token: widget.upcomingClassDTO!.token,
+                                      startTime: widget.startTime!)));
+                        });
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +157,7 @@ class MyBanner extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              'Total lesson time is ${handleTotalLessonHours(totalLessonHours)}',
+              'Total lesson time is ${handleTotalLessonHours(widget.totalLessonHours)}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

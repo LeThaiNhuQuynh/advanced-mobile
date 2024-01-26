@@ -49,10 +49,6 @@ class VideoCall extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.volume_up),
-                      onPressed: () {},
-                    ),
-                    IconButton(
                       icon: Icon(Icons.mic),
                       onPressed: () {},
                     ),
@@ -60,22 +56,12 @@ class VideoCall extends StatelessWidget {
                       icon: Icon(Icons.videocam),
                       onPressed: () {},
                     ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.screen_share),
-                      onPressed: () {},
-                    ),
                     IconButton(
                       icon: Icon(Icons.chat),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.pan_tool),
+                      icon: Icon(Icons.more_horiz),
                       onPressed: () {},
                     ),
                   ],

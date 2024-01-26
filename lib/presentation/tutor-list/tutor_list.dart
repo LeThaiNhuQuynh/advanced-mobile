@@ -48,6 +48,7 @@ class _TutorListState extends State<TutorList> {
   UserDTO? _userDTO;
   ClassDTO? _upcomingClassDTO;
   Duration? _countdownDuration;
+  DateTime _startTime = DateTime.now();
 
   Future<void> getTutorList(int page) async {
     noDataMessage = "";
@@ -121,6 +122,7 @@ class _TutorListState extends State<TutorList> {
       setState(() {
         _upcomingClassDTO = res["upcomingClass"];
         _countdownDuration = res["startTime"].difference(DateTime.now());
+        _startTime = res["startTime"];
       });
     } else if (res["status"] == "401") {
       if (context.mounted) {
@@ -176,6 +178,7 @@ class _TutorListState extends State<TutorList> {
               totalLessonHours: _totalLessonHours,
               upcomingClassDTO: _upcomingClassDTO,
               countdownDuration: _countdownDuration,
+              startTime: _startTime,
             ),
             const SizedBox(height: 20),
             Padding(
