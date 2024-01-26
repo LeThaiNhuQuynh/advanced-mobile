@@ -309,4 +309,65 @@ class UserService {
       };
     }
   }
+
+  Future<Map> editProfile(String _name, String _nationality, String _birthday,
+      String _studySchedule) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    var res = await http.put(Uri.parse('$SERVER_HOST$USER_INFO'),
+        headers: {
+          "Authorization": "Bearer $token",
+          "content-type": "application/json",
+        },
+        body: jsonEncode({
+          'birthday': _birthday,
+          'country': _nationality,
+          'name': _name,
+          'studySchedule': _studySchedule,
+        }));
+
+    var decodedResponse = jsonDecode(res.body);
+
+    if (res.statusCode == 200) {
+      return {
+        "status": res.statusCode.toString(),
+        "user": decodedResponse["user"]
+      };
+    } else if (res.statusCode == 401) {
+      await prefs.remove(TOKEN_KEY);
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    } else {
+      return {
+        "status": res.statusCode.toString(),
+        "message": decodedResponse["message"]
+      };
+    }
+  }
+
+  Future<Map> uploadAvatar(File avatar) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString(TOKEN_KEY) ?? "";
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('$SERVER_HOST$USER/uploadAvatar'));
+    request.headers['Authorization'] = 'Bearer $token';
+    request.files.add(await http.MultipartFile.fromPath('avatar', avatar.path));
+    var response = await request.send();
+
+    Map decodedResponse = jsonDecode(await response.stream.bytesToString());
+
+    if (response.statusCode == 200) {
+      return {
+        "status": response.statusCode.toString(),
+        "avatar": decodedResponse["avatar"]
+      };
+    }
+
+    return {
+      "status": response.statusCode.toString(),
+      "message": decodedResponse["message"]
+    };
+  }
 }

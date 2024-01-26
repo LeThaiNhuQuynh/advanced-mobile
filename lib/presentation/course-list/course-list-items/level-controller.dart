@@ -11,4 +11,18 @@ class Level {
         return "Any level";
     }
   }
+
+  List<String> all() {
+    return [
+      "Beginner",
+      "Higher Beginner",
+      "Pre-Intermediate",
+      "Intermediate",
+      "Upper-Intermediate",
+      "Advanced",
+      "Proficiency",
+      "High Beginner",
+      "Any level"
+    ];
+  }
 }

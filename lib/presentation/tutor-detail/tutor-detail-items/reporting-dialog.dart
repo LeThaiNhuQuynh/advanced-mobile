@@ -47,7 +47,7 @@ class _ReportDialogState extends State<ReportDialog> {
       Navigator.pop(context);
       showDialog(
         context: context,
-        builder: (context) => BookingSuccessDialog(
+        builder: (context) => SuccessDialog(
           title: "Report",
           message:
               "Your report has been sent to admin. Thank you for your feedback!",

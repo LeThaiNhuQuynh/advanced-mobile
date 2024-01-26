@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BookingSuccessDialog extends StatelessWidget {
+class SuccessDialog extends StatelessWidget {
   String title;
   String message;
 
-  BookingSuccessDialog({required this.title, required this.message});
+  SuccessDialog({required this.title, required this.message});
 
   @override
   Widget build(BuildContext context) {

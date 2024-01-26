@@ -227,7 +227,7 @@ class _CancelDialogState extends State<CancelDialog> {
       Navigator.pop(context);
       showDialog(
         context: context,
-        builder: (context) => BookingSuccessDialog(
+        builder: (context) => SuccessDialog(
           title: "Cancel",
           message: "Your cancelation request has been sent to the tutor.",
         ),

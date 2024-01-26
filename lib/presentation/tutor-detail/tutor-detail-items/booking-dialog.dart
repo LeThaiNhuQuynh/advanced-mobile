@@ -48,7 +48,7 @@ class _BookingDialogState extends State<BookingDialog> {
 
       showDialog(
         context: context,
-        builder: (context) => BookingSuccessDialog(
+        builder: (context) => SuccessDialog(
           title: "Booking",
           message: "Check you mail's inbox to see detail order",
         ),

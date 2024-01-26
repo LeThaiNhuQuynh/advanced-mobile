@@ -3,6 +3,7 @@ import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
 import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
+import 'package:advanced_mobile_project/presentation/profile/edit-profile.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
 import 'package:advanced_mobile_project/services/authencation-service.dart';
@@ -57,19 +58,29 @@ class _MenuState extends State<Menu> {
             ),
           ),
           ListTile(
-            title: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Image.network(
-                    _userDTO!.avatar,
-                    width: 30,
-                    height: 30,
+            title: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfile(user: _userDTO!),
                   ),
-                ),
-                SizedBox(width: 15),
-                Text(_userDTO!.name),
-              ],
+                );
+              },
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.network(
+                      _userDTO!.avatar,
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Text(_userDTO!.name),
+                ],
+              ),
             ),
           ),
           ListTile(
