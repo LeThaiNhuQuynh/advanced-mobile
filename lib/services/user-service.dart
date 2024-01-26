@@ -138,9 +138,10 @@ class UserService {
       }
 
       List data = decodedResponse["data"]["rows"];
+      DateTime startTime = DateTime.now();
 
       for (var i = 0; i < data.length; i++) {
-        DateTime startTime = TimestampToDateTime.transfer(
+        startTime = TimestampToDateTime.transfer(
             data[i]["scheduleDetailInfo"]["startPeriodTimestamp"],
             timezone: timezone);
         DateTime endTime = TimestampToDateTime.transfer(
@@ -176,7 +177,8 @@ class UserService {
       return {
         "status": res.statusCode.toString(),
         "classList": classList,
-        "total": (decodedResponse["data"]['count'] / 20).ceil() //perPage=20
+        "total": (decodedResponse["data"]['count'] / 20).ceil(), //perPage=20,
+        "startTime": startTime
       };
     } else if (res.statusCode == 401) {
       await prefs.remove(TOKEN_KEY);

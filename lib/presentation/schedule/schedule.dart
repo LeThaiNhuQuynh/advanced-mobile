@@ -25,6 +25,7 @@ class _ScheduleState extends State<Schedule> {
   int _totalPages = 1;
   UserDTO? _userDTO;
   List<ClassDTO> _upcomingClassDTO = [];
+  DateTime _startTime = DateTime.now();
 
   void getUser() async {
     final userProvider = context.read<UserProvider>();
@@ -41,6 +42,7 @@ class _ScheduleState extends State<Schedule> {
       setState(() {
         _upcomingClassDTO = res["classList"];
         _totalPages = res["total"];
+        _startTime = res["startTime"];
       });
     } else if (res["status"] == "401") {
       if (context.mounted) {
@@ -59,6 +61,7 @@ class _ScheduleState extends State<Schedule> {
   Widget build(BuildContext context) {
     List<Widget> scheduleCards = _upcomingClassDTO.map((ClassDTO item) {
       return ScheduleCard(
+        startTime: _startTime,
         classDTO: item,
         reloadList: () {
           setState(() {

@@ -264,7 +264,7 @@ class _LogInState extends State<LogIn> {
                                     child: _isLogin
                                         ? Text(
                                             AppLocalizations.of(context)!
-                                                .loginIn_loginIn,
+                                                .loginIn_login,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,

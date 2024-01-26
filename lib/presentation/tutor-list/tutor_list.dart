@@ -248,6 +248,7 @@ class _TutorListState extends State<TutorList> {
                         String enteredText = _nameController.text;
                         setState(() {
                           searchName = enteredText;
+                          currentFilter = "";
                           getTutorList(1);
                         });
                       },
@@ -312,7 +313,11 @@ class _TutorListState extends State<TutorList> {
                           ),
                         ),
                         onPressed: () {
-                          // do nothing
+                          setState(() {
+                            searchName = "";
+                            currentFilter = "";
+                            getTutorList(currentPage);
+                          });
                         },
                         child: const Text(
                           'Reset Filters',
