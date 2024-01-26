@@ -67,10 +67,7 @@ class _CourseListState extends State<CourseList> {
     return Scaffold(
       key: _key,
       appBar: Header(scaffoldKey: _key),
-      endDrawer: Menu(
-        userAvatar: 'assets/images/avatar1.jpeg',
-        userName: 'User Name',
-      ),
+      endDrawer: Menu(),
       body: SingleChildScrollView(
           child: Column(children: [
         Container(

@@ -168,10 +168,7 @@ class _TutorListState extends State<TutorList> {
       home: Scaffold(
           key: _key,
           appBar: Header(scaffoldKey: _key),
-          endDrawer: Menu(
-            userAvatar: 'assets/images/avatar1.jpeg',
-            userName: 'User Name',
-          ),
+          endDrawer: Menu(),
           body: SingleChildScrollView(
               child: Column(children: <Widget>[
             MyBanner(
@@ -221,12 +218,10 @@ class _TutorListState extends State<TutorList> {
                           flex: 2,
                           child: MultiSelectDropDown(
                             options: const [
-                              ValueItem(label: 'Option 1', value: '1'),
-                              ValueItem(label: 'Option 2', value: '2'),
-                              ValueItem(label: 'Option 3', value: '3'),
-                              ValueItem(label: 'Option 4', value: '4'),
-                              ValueItem(label: 'Option 5', value: '5'),
-                              ValueItem(label: 'Option 6', value: '6'),
+                              ValueItem(label: 'Foreign Tutor', value: '1'),
+                              ValueItem(label: 'Vietnamese Tutor', value: '2'),
+                              ValueItem(
+                                  label: 'Native English Tutor', value: '3'),
                             ],
                             onOptionSelected:
                                 (List<ValueItem> selectedOptions) {},

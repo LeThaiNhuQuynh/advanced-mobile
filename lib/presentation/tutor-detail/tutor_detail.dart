@@ -131,10 +131,7 @@ class _TutorDetailState extends State<TutorDetail> {
     return Scaffold(
       key: widget._key,
       appBar: Header(scaffoldKey: widget._key),
-      endDrawer: Menu(
-        userAvatar: 'assets/images/avatar1.jpeg',
-        userName: 'User Name',
-      ),
+      endDrawer: Menu(),
       body: SingleChildScrollView(
           child: Column(children: <Widget>[
         Container(

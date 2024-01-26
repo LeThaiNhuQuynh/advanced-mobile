@@ -84,4 +84,10 @@ class AuthenticationService {
     }
     return result;
   }
+
+  Future<void> logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(TOKEN_KEY);
+    prefs.remove(USER_KEY);
+  }
 }

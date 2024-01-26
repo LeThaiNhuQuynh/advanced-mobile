@@ -69,10 +69,7 @@ class _JoinMeetingScreenState extends State<JoinMeetingScreen> {
       home: Scaffold(
         key: _key,
         appBar: Header(scaffoldKey: _key),
-        endDrawer: Menu(
-          userAvatar: 'assets/images/avatar1.jpeg',
-          userName: 'User Name',
-        ),
+        endDrawer: Menu(),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

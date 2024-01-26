@@ -1,15 +1,40 @@
+import 'package:advanced_mobile_project/core/dtos/user-dto.dart';
+import 'package:advanced_mobile_project/core/states/user-state.dart';
 import 'package:advanced_mobile_project/presentation/course-list/course-list.dart';
 import 'package:advanced_mobile_project/presentation/history/history.dart';
+import 'package:advanced_mobile_project/presentation/log-in/login_in.dart';
 import 'package:advanced_mobile_project/presentation/schedule/schedule.dart';
 import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart';
+import 'package:advanced_mobile_project/services/authencation-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-class Menu extends StatelessWidget {
-  Menu({super.key, required this.userAvatar, required this.userName});
+class Menu extends StatefulWidget {
+  Menu({super.key});
+  AuthenticationService authenticationService = AuthenticationService.instance;
 
-  String userAvatar;
-  String userName;
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  UserDTO? _userDTO;
+
+  void getUser() async {
+    final userProvider = context.read<UserProvider>();
+    setState(() {
+      _userDTO = userProvider.userDTO;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      getUser();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +61,14 @@ class Menu extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50.0),
-                  child: Image.asset(
-                    userAvatar,
+                  child: Image.network(
+                    _userDTO!.avatar,
                     width: 30,
                     height: 30,
                   ),
                 ),
                 SizedBox(width: 15),
-                Text(userName),
+                Text(_userDTO!.name),
               ],
             ),
           ),
@@ -129,7 +154,11 @@ class Menu extends StatelessWidget {
               asset: 'assets/svgs/menu-logout.svg',
               text: 'Logout',
             ),
-            onTap: () {},
+            onTap: () {
+              widget.authenticationService.logOut();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => LogIn()));
+            },
           ),
         ],
       ),
