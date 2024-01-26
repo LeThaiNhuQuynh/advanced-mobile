@@ -11,6 +11,8 @@ import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart'
 import 'package:advanced_mobile_project/presentation/video-call/video.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,7 +75,10 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
           ),
-          home: LogIn(),
+          home: const LogIn(),
+          // Localization support
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         ));
   }
 }

@@ -5,6 +5,7 @@ import 'package:advanced_mobile_project/presentation/tutor-list/tutor_list.dart'
 import 'package:advanced_mobile_project/services/authencation-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -83,17 +84,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
         body: _isSuccess
-            ? const Center(
+            ? Center(
                 child: Column(children: [
                 Text(
-                  'Reset Password',
+                  AppLocalizations.of(context)!.forgotPassword_resetPassword,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 32,
                   ),
                 ),
                 Text(
-                  'Check your inbox for a link to reset your password.',
+                  AppLocalizations.of(context)!.forgotPassword_checkYourInbox,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
@@ -106,14 +107,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: Column(
                     children: [
                       Text(
-                        'Reset Password',
+                        AppLocalizations.of(context)!
+                            .forgotPassword_resetPassword,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 32,
                         ),
                       ),
                       Text(
-                        'Please enter your email address to search for your account.',
+                        AppLocalizations.of(context)!
+                            .forgotPassword_pleaseEnterYourEmail,
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 20,

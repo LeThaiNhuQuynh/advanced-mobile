@@ -8,6 +8,7 @@ import 'package:advanced_mobile_project/services/user-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -94,8 +95,8 @@ class _LogInState extends State<LogIn> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 20.0),
-                      child: const Text(
-                        'Say hello to your English tutors',
+                      child: Text(
+                        AppLocalizations.of(context)!.loginIn_sayHello,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 33,
@@ -109,8 +110,8 @@ class _LogInState extends State<LogIn> {
                     // Some Text
                     Container(
                       margin: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: const Text(
-                        'Become fluent faster through one on one video chat lessons tailored to your goals.',
+                      child: Text(
+                        AppLocalizations.of(context)!.loginIn_becomeFluent,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
@@ -158,10 +159,11 @@ class _LogInState extends State<LogIn> {
                           const SizedBox(height: 25),
                           Column(
                             children: <Widget>[
-                              const Align(
+                              Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'PASSWORD',
+                                  AppLocalizations.of(context)!
+                                      .loginIn_password,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -225,7 +227,8 @@ class _LogInState extends State<LogIn> {
                                       );
                                     },
                                     child: Text(
-                                      'Forgot Password?',
+                                      AppLocalizations.of(context)!
+                                          .loginIn_forgotPassword,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -259,16 +262,18 @@ class _LogInState extends State<LogIn> {
                                       _isLogin ? _onLogin() : _onSignUp();
                                     },
                                     child: _isLogin
-                                        ? const Text(
-                                            'LOG IN',
+                                        ? Text(
+                                            AppLocalizations.of(context)!
+                                                .loginIn_loginIn,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
                                               fontWeight: FontWeight.w800,
                                             ),
                                           )
-                                        : const Text(
-                                            'SIGN UP',
+                                        : Text(
+                                            AppLocalizations.of(context)!
+                                                .loginIn_signUp,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -281,8 +286,9 @@ class _LogInState extends State<LogIn> {
                           const SizedBox(height: 30),
                           Column(
                             children: <Widget>[
-                              const Text(
-                                'Or continue with',
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .loginIn_orContinueWith,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
@@ -328,7 +334,8 @@ class _LogInState extends State<LogIn> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Not a member yet?',
+                                    AppLocalizations.of(context)!
+                                        .loginIn_notAMemberYet,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -345,7 +352,8 @@ class _LogInState extends State<LogIn> {
                                       },
                                       child: _isLogin
                                           ? Text(
-                                              'Sign up',
+                                              AppLocalizations.of(context)!
+                                                  .loginIn_signUp,
                                               style: TextStyle(
                                                 color: Color(0xFF1890FF),
                                                 fontSize: 16,
@@ -353,7 +361,8 @@ class _LogInState extends State<LogIn> {
                                               ),
                                             )
                                           : Text(
-                                              'Login',
+                                              AppLocalizations.of(context)!
+                                                  .loginIn_login,
                                               style: TextStyle(
                                                 color: Color(0xFF1890FF),
                                                 fontSize: 16,
@@ -398,7 +407,8 @@ class _LogInState extends State<LogIn> {
       if (value["status"] != "200") {
         print(value["message"]);
         setState(() {
-          _errorText = "Invalid email or password";
+          _errorText =
+              AppLocalizations.of(context)!.loginIn_invalidEmailOrPassword;
         });
         return;
       } else {
@@ -446,7 +456,8 @@ class _LogInState extends State<LogIn> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text("Success"),
-              content: Text("Registration successful!"),
+              content: Text(
+                  AppLocalizations.of(context)!.loginIn_registrationSuccessful),
               actions: [
                 TextButton(
                   onPressed: () {

@@ -47,6 +47,8 @@ dependencies:
   jitsi_meet_flutter_sdk: ^0.1.0
   country_picker: ^2.0.23
   file_picker: ^5.2.10
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -103,3 +105,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  generate: true

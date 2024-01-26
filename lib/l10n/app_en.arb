@@ -1,0 +1,19 @@
+{
+  "loginIn_sayHello": "Say hello to your English tutors",
+  "loginIn_becomeFluent": "Become fluent faster through one on one video chat lessons tailored to your goals.",
+  "loginIn_forgotPassword": "Forgot Password?",
+  "loginIn_password": "PASSWORD",
+  "loginIn_loginIn": "LOGIN IN",
+  "loginIn_signUp": "Sign up",
+  "loginIn_notAMemberYet": "Not a member yet?",
+  "loginIn_success": "Success",
+  "loginIn_registrationSuccessful": "Registration successful!",
+  "loginIn_ok": "OK",
+  "loginIn_invalidEmailOrPassword": "Invalid email or password",
+  "loginIn_login": "LOG IN",
+  "loginIn_orContinueWith": "Or continue with",
+
+  "forgotPassword_resetPassword": "Reset Password",
+  "forgotPassword_checkYourInbox": "Check your inbox for a link to reset your password.",
+  "forgotPassword_pleaseEnterYourEmail": "Please enter your email address to search for your account."
+}
